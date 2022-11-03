@@ -2,9 +2,10 @@ import { Component, AfterViewInit } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { IssDataService } from '../services/iss-data.service';
 import * as L from 'leaflet';
-import { icon, Marker } from 'leaflet';
+
 import {Subscription, timer} from 'rxjs'; 
 import { map } from 'rxjs/operators'; 
+
 
 
 @Component({
@@ -21,6 +22,13 @@ export class MapIssComponent implements AfterViewInit {
    issLongitude:number = 0
    issLatitude:number = 0; 
    issCurrentPosition = L.marker;
+
+   markerIcon = L.icon({
+    iconUrl: 'marker-icon.png',
+    
+
+   })
+   
    
 
    
@@ -71,13 +79,13 @@ export class MapIssComponent implements AfterViewInit {
     this.issDataService.getIssPosition().subscribe(
       (resp) => {
         console.log(resp);
-        
+       
         this.issLatitude = Number(resp.iss_position.latitude);
         this.issLongitude = Number(resp.iss_position.longitude)
         console.log(this.issLongitude)
         console.log(this.issLatitude)
         
-        this.issCurrentPosition([this.issLatitude, this.issLongitude]).addTo(this.worldMap);
+        this.issCurrentPosition([this.issLatitude, this.issLongitude], {icon: this.markerIcon}).addTo(this.worldMap);
         
         
        
