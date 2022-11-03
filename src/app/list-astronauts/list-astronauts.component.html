@@ -1,0 +1,40 @@
+
+
+<div class="container">
+
+
+  <table mat-table [dataSource]="astronautsDetails" class="mat-elevation-z8">
+    <!-- Id Column -->
+  <ng-container matColumnDef="No">
+    <th mat-header-cell *matHeaderCellDef> No </th>
+    <td mat-cell *matCellDef="let element; let i = index"> {{i + 1}} </td>
+  </ng-container>
+    
+    
+    
+    
+    <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Nom </th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="role">
+    <th mat-header-cell *matHeaderCellDef> Role </th>
+    <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="nationality">
+    <th mat-header-cell *matHeaderCellDef> Nationalité </th>
+    <td mat-cell *matCellDef="let element"> {{element.nationality}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+
+
+</div>
