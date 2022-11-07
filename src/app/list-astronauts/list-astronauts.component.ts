@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { AstronautService } from '../services/astronaut.service';
 import {MatTableModule} from '@angular/material/table';
 import { DataSource } from '@angular/cdk/table';
+import { SharedService } from '../services/shared.service';
+import { Subscription } from 'rxjs';
+
+
 
 @Component({
   selector: 'app-list-astronauts',
@@ -22,15 +26,26 @@ export class ListAstronautsComponent implements OnInit    {
 
   displayedColumns: string[] = ['No', 'name', 'role', 'nationality'];
 
+  items = ['Liste des astronautes'];
+  expandedIndex = 0;
+
+  getAstronautEventsubcription:Subscription;
  
 
-  constructor(private astronautService: AstronautService) { }
+  constructor(private astronautService: AstronautService, private sharedService:SharedService) { 
+
+    this.getAstronautEventsubcription = this.sharedService.getAstronaut().subscribe(() => {
+      this.getAstronautDetails();
+    })
+  }
 
   ngOnInit(): void {
 
       this.getAstronautDetails();
       
   }
+
+ 
 
   getAstronautDetails() {
     this.astronautService.getAstronauts().subscribe(
@@ -43,5 +58,9 @@ export class ListAstronautsComponent implements OnInit    {
       }
     )
   }
+
+  
+
+  
 
 }

@@ -7,8 +7,14 @@ import { ListAstronautsComponent } from './list-astronauts/list-astronauts.compo
 import { HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table'  
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import {MatButtonModule} from '@angular/material/button';
+import { MatFormFieldModule} from '@angular/material/form-field';
 import { MapIssComponent } from './map-iss/map-iss.component' 
+import {CdkAccordionModule} from '@angular/cdk/accordion'; 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AddFormComponent } from './add-form/add-form.component';
+import {MatInputModule} from '@angular/material/input' 
+
 
 
  
@@ -17,14 +23,27 @@ import { MapIssComponent } from './map-iss/map-iss.component'
   declarations: [
     AppComponent,
     ListAstronautsComponent,
-    MapIssComponent
+    MapIssComponent,
+    AddFormComponent,
+    
+    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatTableModule
+    MatTableModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    CdkAccordionModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+  
+    
+    
+    
     
     
   ],

@@ -1,0 +1,23 @@
+<form [formGroup]="astronautFromGroup" (ngSubmit)="submitNewAstronaut()">
+    <!-- Value: {{astronautFromGroup.value | json}} -->
+
+<mat-form-field>
+    <input matInput placeholder="Nom" formControlName="name">
+</mat-form-field>
+<mat-form-field>
+    <input matInput placeholder="Role" formControlName="role">
+</mat-form-field>
+<mat-form-field>
+    <input matInput placeholder="Nationalité" formControlName="nationality">
+</mat-form-field>
+
+<button mat-raised-button class="add-button" color="primary" type="submit">Valider</button>
+
+
+
+
+</form>
+
+<!-- <div *ngIf="sucess" clas="notification is sucess">
+     Astronaute envoye a bord de l ISS !
+</div> -->
