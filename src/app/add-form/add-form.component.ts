@@ -14,7 +14,7 @@ export class AddFormComponent implements OnInit {
    astronautFromGroup: FormGroup;
 
    loading = false;
-   sucess = false;
+   success = false;
 
   constructor(private fb: FormBuilder, private astronautService: AstronautService, private sharedService:SharedService) { }
 
@@ -38,7 +38,7 @@ export class AddFormComponent implements OnInit {
    this.astronautService.registerAstronaut(formValue).subscribe(
     (resp) => {
       console.log(resp);
-      this.sucess = true
+      this.success = true
       this.sharedService.sendGetAstronaut();
    
       

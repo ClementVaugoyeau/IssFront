@@ -16,15 +16,11 @@ export class ListAstronautsComponent implements OnInit    {
   title = "astronautList"
 
   astronautsDetails = null as any
-  astronautsToUpdate = {
-    name:"",
-    role:"",
-    nationality:""
-  }
+
 
   index = 1;
 
-  displayedColumns: string[] = ['No', 'name', 'role', 'nationality'];
+  displayedColumns: string[] = ['No', 'name', 'role', 'nationality', 'actions'];
 
   items = ['Liste des astronautes'];
   expandedIndex = 0;
@@ -45,6 +41,14 @@ export class ListAstronautsComponent implements OnInit    {
       
   }
 
+  onEdit(item: any) {
+    
+    this.astronautsDetails.forEach((element: { isEdit: boolean; }) => {
+      element.isEdit = false;
+    });
+    item.isEdit = true;
+  }
+
  
 
   getAstronautDetails() {
@@ -52,6 +56,28 @@ export class ListAstronautsComponent implements OnInit    {
       (resp) => {
         console.log(resp);
         this.astronautsDetails = resp;
+      },
+      (err) => {
+        console.log(err)
+      }
+    )
+  }
+
+  updateAstronautAstronaut(element: any) {
+    
+    let astronautsToUpdate = {
+      "name": element.name,
+      "role": element.role,
+      "nationality": element.nationality
+
+    }
+    console.log(astronautsToUpdate)
+
+    this.astronautService.putAstronauts(astronautsToUpdate, element.id).subscribe(
+      (resp) => {
+       
+        this.getAstronautDetails()
+        
       },
       (err) => {
         console.log(err)

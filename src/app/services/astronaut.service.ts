@@ -21,6 +21,9 @@ export class AstronautService {
   public getAstronauts(){
     return this.http.get(this.API + '/astronauts')
   }
+  public putAstronauts(astronautData: any, id: Number){
+    return this.http.put(this.API + `/astronauts/${id}`, astronautData)
+  }
 
 
 }
