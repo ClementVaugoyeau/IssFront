@@ -25,5 +25,9 @@ export class AstronautService {
     return this.http.put(this.API + `/astronauts/${id}`, astronautData)
   }
 
+  public DeleteAstronauts( id: Number){
+    return this.http.delete(this.API + `/astronauts/${id}`)
+  }
+
 
 }

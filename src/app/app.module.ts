@@ -13,7 +13,9 @@ import { MapIssComponent } from './map-iss/map-iss.component'
 import {CdkAccordionModule} from '@angular/cdk/accordion'; 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddFormComponent } from './add-form/add-form.component';
-import {MatInputModule} from '@angular/material/input' 
+import {MatInputModule} from '@angular/material/input';
+import {MatTabsModule} from '@angular/material/tabs';
+
 
 
 
@@ -40,6 +42,8 @@ import {MatInputModule} from '@angular/material/input'
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,
+    MatTabsModule
+    
   
     
     

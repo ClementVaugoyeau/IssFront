@@ -63,7 +63,7 @@ export class ListAstronautsComponent implements OnInit    {
     )
   }
 
-  updateAstronautAstronaut(element: any) {
+  updateAstronaut(element: any) {
     
     let astronautsToUpdate = {
       "name": element.name,
@@ -71,9 +71,23 @@ export class ListAstronautsComponent implements OnInit    {
       "nationality": element.nationality
 
     }
-    console.log(astronautsToUpdate)
+   
 
     this.astronautService.putAstronauts(astronautsToUpdate, element.id).subscribe(
+      (resp) => {
+       
+        this.getAstronautDetails()
+        
+      },
+      (err) => {
+        console.log(err)
+      }
+    )
+  }
+
+  deleteAstronaut(element: any) {
+    
+    this.astronautService.DeleteAstronauts(element.id).subscribe(
       (resp) => {
        
         this.getAstronautDetails()

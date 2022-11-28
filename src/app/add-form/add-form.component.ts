@@ -26,7 +26,7 @@ export class AddFormComponent implements OnInit {
 
     });
     
-    this.astronautFromGroup.valueChanges.subscribe(console.log)
+   
 
   }
 
