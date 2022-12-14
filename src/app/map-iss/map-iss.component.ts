@@ -96,6 +96,7 @@ export class MapIssComponent implements AfterViewInit {
         this.issLongitude = Number(resp.iss_position.longitude)
         this.issCurrentPosition.setLatLng(([this.issLatitude, this.issLongitude]));
         
+        
       },
       (err) => {
         console.log(err)

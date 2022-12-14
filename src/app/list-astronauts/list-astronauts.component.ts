@@ -3,7 +3,10 @@ import { AstronautService } from '../services/astronaut.service';
 import {MatTableModule} from '@angular/material/table';
 import { DataSource } from '@angular/cdk/table';
 import { SharedService } from '../services/shared.service';
-import { Subscription } from 'rxjs';
+import { Subscription,  Observable, of, pipe } from 'rxjs';
+import { map, pluck } from 'rxjs/operators';
+import { AstronautsInSpace } from './astronaut-list-response';
+
 
 
 
@@ -16,19 +19,32 @@ export class ListAstronautsComponent implements OnInit    {
   title = "astronautList"
 
   astronautsDetails = null as any
+  astronautArrayAPIRep:any = [];
 
 
   index = 1;
 
   displayedColumns: string[] = ['No', 'name', 'role', 'nationality', 'actions'];
+  
 
   items = ['Liste des astronautes'];
   expandedIndex = 0;
 
   getAstronautEventsubcription:Subscription;
+  
+  astronautModel!: AstronautsInSpace;
+
+  
  
 
   constructor(private astronautService: AstronautService, private sharedService:SharedService) { 
+
+   
+     
+   
+
+   
+
 
     this.getAstronautEventsubcription = this.sharedService.getAstronaut().subscribe(() => {
       this.getAstronautDetails();
@@ -52,15 +68,36 @@ export class ListAstronautsComponent implements OnInit    {
  
 
   getAstronautDetails() {
-    this.astronautService.getAstronauts().subscribe(
-      (resp) => {
-        console.log(resp);
-        this.astronautsDetails = resp;
+    this.astronautService.getAstronauts().subscribe({
+      next: (v) => {
+        console.log(v)
+        this.astronautsDetails = v},
+      error: (e) => {
+        console.error("local server not responding",e)
+        this.astronautService.getAstronautOpenNotify().subscribe({
+
+          next: (v) => { 
+            
+          
+           this.astronautArrayAPIRep = v.people
+           this.astronautsDetails = this.astronautArrayAPIRep.filter((obj:any) => {
+            return obj.craft === "ISS"
+           })
+         },
+        })
+      
+      
       },
-      (err) => {
-        console.log(err)
-      }
-    )
+      complete: () => console.info('complete')
+    
+        //  this.astronautService.getAstronautOpenNotify().subscribe(
+        //   (resp) => {
+        //     console.log(resp)
+        //   }
+        //  )
+        // console.log('eroooooooooooooooor')
+    });
+    
   }
 
   updateAstronaut(element: any) {
