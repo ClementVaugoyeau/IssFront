@@ -13,9 +13,9 @@
       [attr.id]="'accordion-header-' + index"
       [attr.aria-expanded]="accordionItem.expanded"
       [attr.aria-controls]="'accordion-body-' + index">
-      <div class="example-accordion-item-header" (click)="accordionItem.toggle()">
+      <div class="example-accordion-item-header" (click)="accordionItem.toggle()" *ngIf="isLocalAPIOn">
         {{ item }}
-        <span class="example-accordion-item-description">
+        <span class="example-accordion-item-description" >
            {{ accordionItem.expanded ? 'Masquer le formulaire' : 'Cliquer pour ajouter un astronaute' }}
         </span>
       </div>

@@ -28,7 +28,7 @@ export class ListAstronautsComponent implements OnInit    {
 
   displayedColumns: string[] = ['No', 'name', 'role', 'nationality', 'actions'];
 
-  items = ['Liste des astronautes'];
+  items = ['Liste des astronautes à bord de la station'];
   expandedIndex = 0;
 
   getAstronautEventsubcription: Subscription;
