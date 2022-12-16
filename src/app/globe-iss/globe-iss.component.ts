@@ -45,7 +45,7 @@ export class GlobeIssComponent implements AfterViewInit {
     }];
 
     
-    console.log(Math.random())
+    
       this.world = Globe()
         
         .width(500)
@@ -72,7 +72,7 @@ export class GlobeIssComponent implements AfterViewInit {
       
       
       this.world.objectsData(satData);
-     console.log(this._renderer.selectRootElement(this.globes))
+    
       this._renderer.selectRootElement(this.globes)
 
       const div = this._renderer.createElement('div');
