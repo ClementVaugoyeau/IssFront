@@ -1,6 +1,8 @@
 import { Component, AfterViewInit, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import * as THREE from "three";
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { Vector3 } from 'three';
 
 @Component({
   selector: 'app-viewport-iss',
@@ -45,9 +47,10 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
   private Texloader = new THREE.TextureLoader();
  
   private geometry = new THREE.BoxGeometry(1, 1, 1);
-  private material = new THREE.MeshBasicMaterial({color: 0x479e9e, wireframe:true})
+  private material = new THREE.MeshStandardMaterial({color: 0x479e9e, wireframe:false})
+  private Ambiantlight = new THREE.AmbientLight( 0x404040, 1 );
+  private light = new THREE.DirectionalLight( 0x404040, 5 );
 
-  
 
   private cube: THREE.Mesh = new THREE.Mesh(this.geometry, this.material);
 
@@ -55,13 +58,27 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
 
   private scene!: THREE.Scene;
 
+  private controls!: any;
+
+  private loader = new GLTFLoader();
+
+  // loader.load( 'path/to/model.glb', function ( gltf ) {
+
+  //   scene.add( gltf.scene );
+
+  // }, undefined, function ( error ) {
+
+  //   console.error( error );
+
+  // } );
+
   /**
    *Animate the cube
    *
    * @private
    * @memberof ViewportIssComponent
    */
-  private animateCube() {
+  private animateIss() {
     this.cube.rotation.x += this.rotationSpeedX;
     this.cube.rotation.y += this.rotationSpeedY;
   }
@@ -75,8 +92,29 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
   private createScene() {
     //* Scene
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0x000000)
-    this.scene.add(this.cube);
+    this.scene.background = new THREE.Color(0xb9b9b9)
+    
+   
+    this.scene.add(this.light, this.Ambiantlight)
+
+
+    this.loader.load( "/assets/iss-_international_space_station.glb",  ( gltf ) => {
+    
+    this.scene.add(gltf.scene)
+    gltf.scene.scale.x = 50
+    gltf.scene.scale.y = 50
+    gltf.scene.scale.z = 50
+    
+    this.camera.lookAt(gltf.scene.position)
+    console.log(gltf.scene.position)
+    console.log(gltf.scene)
+    
+
+  }, undefined, function ( error ) {
+
+    console.error( error );
+
+  } );
     //*Camera
     let aspectRatio = this.getAspectRatio();
     this.camera = new THREE.PerspectiveCamera(
@@ -87,6 +125,8 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
     )
     this.camera.position.z = this.cameraZ;
   }
+
+
 
   
 
@@ -106,12 +146,14 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
     this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
     this.renderer.setPixelRatio(devicePixelRatio);
     this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
-
+    this.controls = new OrbitControls( this.camera, this.renderer.domElement );
+    this.controls.update();
     let component: ViewportIssComponent = this;
     (function render() {
       requestAnimationFrame(render);
-      component.animateCube();
+      
       component.renderer.render(component.scene, component.camera);
+      
     }());
   }
   
