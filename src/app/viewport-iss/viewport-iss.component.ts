@@ -2,7 +2,8 @@ import { Component, AfterViewInit, ElementRef, Input, OnInit, ViewChild } from '
 import * as THREE from "three";
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { Vector3 } from 'three';
+import { AmbientLight, Vector3 } from 'three';
+import { animate } from '@angular/animations';
 
 @Component({
   selector: 'app-viewport-iss',
@@ -18,7 +19,7 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
 
   @Input() public rotationSpeedX: number = 0.01;
 
-  @Input() public rotationSpeedY: number = 0.01;
+  @Input() public rotationSpeedY: number = 0.001;
 
   @Input() public size: number = 200;
 
@@ -29,7 +30,9 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
 
   //* Stage Properties
 
-  @Input() public cameraZ: number = 400;
+  @Input() public cameraZ: number = 60;
+  @Input() public cameraY: number = 20;
+  @Input() public cameraX: number = 50;
 
   @Input() public fieldOfView: number = 1;
 
@@ -48,8 +51,9 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
  
   private geometry = new THREE.BoxGeometry(1, 1, 1);
   private material = new THREE.MeshStandardMaterial({color: 0x479e9e, wireframe:false})
-  private Ambiantlight = new THREE.AmbientLight( 0x404040, 1 );
-  private light = new THREE.DirectionalLight( 0x404040, 5 );
+  private AmbiantLight = new THREE.AmbientLight( 0x404040, 1 );
+  private DirectionaLight = new THREE.PointLight( 0x404040, 7 );
+  private DLighthelper = new THREE.PointLightHelper( this.DirectionaLight, 5 );
 
 
   private cube: THREE.Mesh = new THREE.Mesh(this.geometry, this.material);
@@ -58,19 +62,13 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
 
   private scene!: THREE.Scene;
 
+  private IssScene!: any;
+
   private controls!: any;
 
   private loader = new GLTFLoader();
 
-  // loader.load( 'path/to/model.glb', function ( gltf ) {
-
-  //   scene.add( gltf.scene );
-
-  // }, undefined, function ( error ) {
-
-  //   console.error( error );
-
-  // } );
+  
 
   /**
    *Animate the cube
@@ -79,8 +77,8 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
    * @memberof ViewportIssComponent
    */
   private animateIss() {
-    this.cube.rotation.x += this.rotationSpeedX;
-    this.cube.rotation.y += this.rotationSpeedY;
+    this.IssScene.rotation.y += this.rotationSpeedY;
+   
   }
 
   /**
@@ -92,20 +90,25 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
   private createScene() {
     //* Scene
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0xb9b9b9)
+    this.scene.background = new THREE.Color(0xd6d6d6)
     
-   
-    this.scene.add(this.light, this.Ambiantlight)
+   this.DirectionaLight.position.x = 10
+   this.DirectionaLight.position.y = 20
+    this.scene.add(this.DirectionaLight, this.AmbiantLight)
 
 
     this.loader.load( "/assets/iss-_international_space_station.glb",  ( gltf ) => {
     
     this.scene.add(gltf.scene)
-    gltf.scene.scale.x = 50
-    gltf.scene.scale.y = 50
-    gltf.scene.scale.z = 50
+ 
+
+    this.IssScene = gltf.scene;
+    this.IssScene.scale.x = 10;
+    this.IssScene.scale.y = 10;
+    this.IssScene.scale.z = 10;
+    this.IssScene.position.y = -0.3
     
-    this.camera.lookAt(gltf.scene.position)
+    
     console.log(gltf.scene.position)
     console.log(gltf.scene)
     
@@ -124,6 +127,11 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
       this.farClippingPlane
     )
     this.camera.position.z = this.cameraZ;
+    this.camera.position.y = this.cameraY;
+    this.camera.position.x = this.cameraX;
+
+
+    
   }
 
 
@@ -147,11 +155,12 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
     this.renderer.setPixelRatio(devicePixelRatio);
     this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
     this.controls = new OrbitControls( this.camera, this.renderer.domElement );
-    this.controls.update();
+    
+    
     let component: ViewportIssComponent = this;
     (function render() {
       requestAnimationFrame(render);
-      
+      component.animateIss();
       component.renderer.render(component.scene, component.camera);
       
     }());
