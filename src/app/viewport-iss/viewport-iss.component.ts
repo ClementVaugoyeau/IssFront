@@ -2,8 +2,7 @@ import { Component, AfterViewInit, ElementRef, Input, OnInit, ViewChild } from '
 import * as THREE from "three";
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { AmbientLight, Vector3 } from 'three';
-import { animate } from '@angular/animations';
+
 
 @Component({
   selector: 'app-viewport-iss',
@@ -90,7 +89,7 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
   private createScene() {
     //* Scene
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0xd6d6d6)
+    this.scene.background = new THREE.Color(0x9fc4ce)
     
    this.DirectionaLight.position.x = 10
    this.DirectionaLight.position.y = 20
