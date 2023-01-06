@@ -3,6 +3,7 @@ import * as THREE from "three";
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import ThreeGlobe from 'three-globe';
+import { Vector3 } from 'three';
 
 
 
@@ -26,7 +27,8 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
   @Input() public size: number = 200;
 
   @Input() public texture: string = "/assets/texture.jpg";
-
+   
+  
  
 
 
@@ -80,7 +82,18 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
   private CubeGeo = new THREE.BoxGeometry(1,1,1)
   private CubeMaterail = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
   private Cube = new THREE.Mesh( this.CubeGeo, this.CubeMaterail );
+ 
+  //* Globe properties
 
+  @Input()  public EARTH_RADIUS_KM = 6371; // km
+  @Input()  public SAT_SIZE = 100; // km
+  @Input()  public TIME_STEP = 3 * 1000; // per frame
+
+  @Input() public satGeometry = new THREE.OctahedronGeometry(this.SAT_SIZE * this.Globe.getGlobeRadius() / this.EARTH_RADIUS_KM / 2, 0);
+  @Input() public satMaterial = new THREE.MeshLambertMaterial({ color: 'palegreen', transparent: true, opacity: 0.7 });
+  // @Input() public satData = {[name: 'ISS', lat : 33, lng: 34,]}
+  // @Input() public satData = []
+  @Input()  public IssObj3D = new THREE.Object3D()
   
 
   /**
@@ -102,6 +115,11 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
    */
   private createScene() {
     //* Scene
+    this.IssObj3D.position.x = 1000;
+    this.IssObj3D.position.y = 1000;
+    this.IssObj3D.position.z = 1000;
+
+    this.Globe.objectsData([this.IssObj3D])
     this.scene = new THREE.Scene();
     this.scene.add(this.Globe)
 
