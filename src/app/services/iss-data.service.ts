@@ -18,7 +18,7 @@ export class IssDataService {
   constructor(private http: HttpClient) { }
 
 
-  API = 'http://api.open-notify.org/iss-now.json';
+  API = 'https://api.open-notify.org/iss-now.json';
   // API = 'https://api.wheretheiss.at/v1/satellites/25544';
 
 

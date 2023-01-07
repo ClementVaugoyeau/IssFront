@@ -12,8 +12,8 @@ export class AstronautService {
   constructor(private http: HttpClient) { }
 
 
-  API = 'http://localhost:8081';
-  API_astronautsInSpace = 'http://api.open-notify.org/astros.json'
+  API = 'https://localhost:8081';
+  API_astronautsInSpace = 'https://api.open-notify.org/astros.json'
 
 
   public registerAstronaut(astronautData: any){
