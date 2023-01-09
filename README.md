@@ -1,6 +1,12 @@
-# IssFront
+# IssFront Tableau de bord fictif de la station spatiale internationale
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.7.
+Ce projet est développé avec Angular version 14. Il permet de savoir quels atromautes sont a bord de la station en ce moment, ou se trouve la station au dessus de la terre sur une carte en 2D (library leaflet) et sur un globe en 3D.
+
+<p align="center">
+
+  <img src="https://github.com/ClementVaugoyeau/IssFront/blob/dev/src/assets/screenshot_1_list_map.JPG"  alt="accessibility text">
+</p>      
+
 
 ## Development server
 
