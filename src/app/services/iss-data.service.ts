@@ -18,7 +18,8 @@ export class IssDataService {
   constructor(private http: HttpClient) { }
 
 
-  API = 'https://cors-anywhere.herokuapp.com/http://api.open-notify.org/iss-now.json';
+  // API = 'https://cors-anywhere.herokuapp.com/http://api.open-notify.org/iss-now.json';
+  API = 'http://api.open-notify.org/iss-now.json';
   // API = 'https://api.wheretheiss.at/v1/satellites/25544';
 
 
