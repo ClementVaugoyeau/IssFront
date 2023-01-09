@@ -10,7 +10,7 @@ Ce projet est développé avec Angular version 14. Il permet de savoir quels atr
 
 <p align="center">
 
-  <img src="https://github.com/ClementVaugoyeau/IssFront/blob/dev/src/assets/screenshot_2_ISS_3D_Model.JPG)"  alt="accessibility text">
+  <img src="https://github.com/ClementVaugoyeau/IssFront/blob/dev/src/assets/screenshot_2_ISS_3D_Model.JPG"  alt="accessibility text">
 </p> 
 
 
