@@ -72,7 +72,7 @@ export class MapIssComponent implements AfterViewInit {
     this.issCurrentPosition = L.marker([this.issLatitude, this.issLongitude], {icon: this.markerIcon}).addTo(this.worldMap)
     this.tiles.addTo(this.worldMap)
     // timer 10000 = 10s
-    this.subscription = timer(0, 1000000).pipe( 
+    this.subscription = timer(0, 100).pipe( 
       map(() => { 
         this.getIssPosition(); 
       }) 
