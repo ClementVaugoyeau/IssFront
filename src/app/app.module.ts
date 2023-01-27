@@ -15,6 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddFormComponent } from './add-form/add-form.component';
 import {MatInputModule} from '@angular/material/input';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatExpansionModule} from '@angular/material/expansion';
 import { GlobeIssComponent } from './globe-iss/globe-iss.component';
 import { ViewportIssComponent } from './viewport-iss/viewport-iss.component';
 
@@ -46,7 +47,8 @@ import { ViewportIssComponent } from './viewport-iss/viewport-iss.component';
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,
-    MatTabsModule
+    MatTabsModule,
+    MatExpansionModule
     
   
     

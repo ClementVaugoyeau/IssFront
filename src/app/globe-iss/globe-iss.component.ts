@@ -1,6 +1,11 @@
-import { Component, AfterViewInit, ViewChildren, ElementRef, Renderer2, QueryList } from '@angular/core';
-import Globe from 'globe.gl'
-import * as THREE from 'three';
+import { Component, AfterViewInit, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import * as THREE from "three";
+import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import ThreeGlobe from 'three-globe';
+import { Vector3 } from 'three';
+
+
 
 
 
@@ -9,101 +14,188 @@ import * as THREE from 'three';
   templateUrl: './globe-iss.component.html',
   styleUrls: ['./globe-iss.component.scss']
 })
-export class GlobeIssComponent implements AfterViewInit {
-
+export class GlobeIssComponent implements AfterViewInit, OnInit {
+  @ViewChild('canvas')
+  private canvasRef!: ElementRef;
   
-  constructor(
-    private _renderer: Renderer2,
-    private globes: ElementRef
-  ) { 
-    
+  //* Cube Properties
+
+  @Input() public rotationSpeedX: number = 0.01;
+
+  @Input() public rotationSpeedY: number = 0.001;
+
+  @Input() public size: number = 200;
+
+  @Input() public texture: string = "/assets/texture.jpg";
+   
+  
+ 
+
+
+  //* Stage Properties
+
+  @Input() public cameraZ: number = 60;
+  @Input() public cameraY: number = 20;
+  @Input() public cameraX: number = 50;
+
+  @Input() public fieldOfView: number = 1;
+
+  @Input('nearClipping') public nearClippingPlane: number = 1;
+
+  @Input('farClipping') public farClippingPlane: number = 1000000;
+
+  //? Helper Properties (Private Properties);
+
+  private camera!: THREE.PerspectiveCamera;
+
+  private get canvas(): HTMLCanvasElement {
+    return this.canvasRef.nativeElement;
   }
-
-  world: any;
-
-  ngAfterViewInit(): void {
-
-    const EARTH_RADIUS_KM = 6371; // km
-      const SAT_SIZE = 100; // km
-      const TIME_STEP = 3 * 1000; // per frame
+  private Texloader = new THREE.TextureLoader();
+ 
+  private geometry = new THREE.BoxGeometry(1, 1, 1);
+  private material = new THREE.MeshStandardMaterial({color: 0x479e9e, wireframe:false})
+  private AmbiantLight = new THREE.AmbientLight(0xbbbbbb)
+  private DirectionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
   
-      const timeLogger = document.getElementById('time-log');
 
-      const N = 1;
-    const gData = [{
-      lat:  50,
-      lng: 29,
-      alt: 0.9,
-      color: 'red'
-    }];
 
-    const satData = [{
-      lat:  40,
-      lng: 29,
-      alt: 0.2,
-      
-    }];
 
-    
-    console.log(Math.random())
-      this.world = Globe()
-        
-        .width(500)
-        .height(500)
-        .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
-      .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
-      .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
-      
-      
-      .pointRadius(1)
+  private cube: THREE.Mesh = new THREE.Mesh(this.geometry, this.material);
+
+  private renderer!: THREE.WebGLRenderer;
+
+  private scene!: THREE.Scene;
+
+  private IssScene!: any;
+
+  private controls!: any;
+
+  private loader = new GLTFLoader();
+
+  private Globe = new ThreeGlobe() 
+ .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
+ .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
       .objectLat('lat')
       .objectLng('lng')
-      .objectAltitude('alt')
-      .objectLabel('name')
-      .pointColor('color')
-      
-  
-      setTimeout(() => this.world.pointOfView({ altitude: 2.5 }));
-  
-      const satGeometry = new THREE.SphereGeometry(2);
-      const satMaterial = new THREE.MeshLambertMaterial({ color: 'red'});
-      this.world.objectThreeObject(() => new THREE.Mesh(satGeometry, satMaterial));
+      .objectAltitude('alt');
+  private CubeGeo = new THREE.BoxGeometry(1,1,1)
+  private CubeMaterail = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+  private Cube = new THREE.Mesh( this.CubeGeo, this.CubeMaterail );
+ 
+  //* Globe properties
 
-      
-      
-      this.world.objectsData(satData);
-     console.log(this._renderer.selectRootElement(this.globes))
-      this._renderer.selectRootElement(this.globes)
+  @Input()  public EARTH_RADIUS_KM = 6371; // km
+  @Input()  public SAT_SIZE = 100; // km
+  @Input()  public TIME_STEP = 3 * 1000; // per frame
 
-      const div = this._renderer.createElement('div');
-      const text = this._renderer.createText('I am dynamically createdhhh');
-      this._renderer.appendChild(div, text);
-      this._renderer.appendChild(this.globes.nativeElement, div);
-    
-        // document.addEventListener("DOMContentLoaded", () => {
-        //   alert("DOM ready!");
-        //   this.initGlobe();
-          
-        // });       
+  @Input() public satGeometry = new THREE.OctahedronGeometry(this.SAT_SIZE * this.Globe.getGlobeRadius() / this.EARTH_RADIUS_KM / 2, 0);
+  @Input() public satMaterial = new THREE.MeshLambertMaterial({ color: 'palegreen', transparent: true, opacity: 0.7 });
+  // @Input() public satData = {[name: 'ISS', lat : 33, lng: 34,]}
+  // @Input() public satData = []
+  @Input()  public IssObj3D = new THREE.Object3D()
+  
+
+  /**
+   *Animate the cube
+   *
+   * @private
+   * @memberof GlobeIssComponent
+   */
+  private animateIss() {
+    this.IssScene.rotation.y += this.rotationSpeedY;
    
   }
 
-  // private initGlobe(): void {
-  //   console.log(this.world)
-  //   console.log(typeof(this.world))
-  //   this.world(document.getElementById('chart'))
-      
-  // }
-  
+  /**
+   * Create the scene
+   *
+   * @private
+   * @memberof GlobeIssComponent
+   */
+  private createScene() {
+    //* Scene
+    this.IssObj3D.position.x = 1000;
+    this.IssObj3D.position.y = 1000;
+    this.IssObj3D.position.z = 1000;
 
+    this.Globe.objectsData([this.IssObj3D])
+    this.scene = new THREE.Scene();
+    this.scene.add(this.Globe)
+
+    this.scene.background = new THREE.Color(0x00000)
+    
+ 
+    this.scene.add( this.AmbiantLight, this.DirectionalLight)
     
 
-     
-    
     
    
-  
+    //*Camera
+    let aspectRatio = this.getAspectRatio();
+    this.camera = new THREE.PerspectiveCamera(
+      this.fieldOfView,
+      aspectRatio,
+      this.nearClippingPlane,
+      this.farClippingPlane
+    )
+    this.camera.aspect = window.innerWidth/window.innerHeight;
+    this.camera.updateProjectionMatrix();
+    this.camera.position.z = 12000;
+
+
+    
+  }
+
+
 
   
 
+  private getAspectRatio() {
+    return this.canvas.clientWidth / this.canvas.clientHeight;
+  }
+
+  /**
+ * Start the rendering loop
+ *
+ * @private
+ * @memberof GlobeIssComponent
+ */
+  private startRenderingLoop() {
+    //* Renderer
+    // Use canvas element in template
+    this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
+    this.renderer.setPixelRatio(devicePixelRatio);
+    this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
+    this.controls = new OrbitControls( this.camera, this.renderer.domElement );
+    
+    
+    let component: GlobeIssComponent = this;
+    (function render() {
+      requestAnimationFrame(render);
+      
+      component.renderer.render(component.scene, component.camera);
+      
+    }());
+  }
+  
+  
+
+  constructor() { }
+  
+
+
+  ngOnInit(): void {
+    
+  }
+
+  ngAfterViewInit(): void {
+    this.createScene();
+    this.startRenderingLoop();
+    
+  }
+
+
+  
+  
 }

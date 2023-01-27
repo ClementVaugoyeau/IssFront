@@ -87,7 +87,10 @@
             <app-map-iss></app-map-iss>
           </div>
         </mat-tab>
-        <mat-tab label="Globe 3D"> <app-globe-iss></app-globe-iss> </mat-tab>
+        
+        <mat-tab label="Globe 3D"><ng-template matTabContent>
+          <app-globe-iss></app-globe-iss> 
+        </ng-template>  </mat-tab>
       </mat-tab-group>
 
     </div>

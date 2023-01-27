@@ -13,6 +13,7 @@ export class AstronautService {
 
 
   API = 'http://localhost:8081';
+  // API_astronautsInSpace = 'https://cors-anywhere.herokuapp.com/http://api.open-notify.org/astros.json'
   API_astronautsInSpace = 'http://api.open-notify.org/astros.json'
 
 

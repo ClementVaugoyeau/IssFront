@@ -19,46 +19,43 @@ export class ListAstronautsComponent implements OnInit    {
   title = "astronautList"
 
   astronautsDetails = null as any
-  astronautArrayAPIRep:any = [];
+  astronautArrayAPIRep: any = [];
+
+  isLocalAPIOn = true;
 
 
   index = 1;
 
   displayedColumns: string[] = ['No', 'name', 'role', 'nationality', 'actions'];
-  
 
-  items = ['Liste des astronautes'];
+  items = ['Liste des astronautes à bord de la station'];
   expandedIndex = 0;
 
-  getAstronautEventsubcription:Subscription;
-  
+  getAstronautEventsubcription: Subscription;
+
   astronautModel!: AstronautsInSpace;
 
-  
- 
 
-  constructor(private astronautService: AstronautService, private sharedService:SharedService) { 
+  constructor(private astronautService: AstronautService, private sharedService: SharedService) {
 
-   
-     
-   
-
-   
+    
+      
+    
 
 
-    this.getAstronautEventsubcription = this.sharedService.getAstronaut().subscribe(() => {
+   this.getAstronautEventsubcription = this.sharedService.getAstronaut().subscribe(() => {
       this.getAstronautDetails();
     })
   }
 
   ngOnInit(): void {
 
-      this.getAstronautDetails();
-      
+    this.getAstronautDetails();
+
   }
 
   onEdit(item: any) {
-    
+
     this.astronautsDetails.forEach((element: { isEdit: boolean; }) => {
       element.isEdit = false;
     });
@@ -71,33 +68,65 @@ export class ListAstronautsComponent implements OnInit    {
     this.astronautService.getAstronauts().subscribe({
       next: (v) => {
         console.log(v)
-        this.astronautsDetails = v},
+        this.astronautsDetails = v
+      },
       error: (e) => {
-        console.error("local server not responding",e)
+        console.error("local server not responding getting astronaut list from OpenAPI", e)
+        this.isLocalAPIOn = false;
+        this.displayedColumns.pop() //delete actons of displayed column
+        
         this.astronautService.getAstronautOpenNotify().subscribe({
 
-          next: (v) => { 
-            
-          
-           this.astronautArrayAPIRep = v.people
-           this.astronautsDetails = this.astronautArrayAPIRep.filter((obj:any) => {
-            return obj.craft === "ISS"
-           })
-         },
+          next: (v) => {
+
+            this.PutResponseIntoArray(v);
+          },
         })
-      
-      
+
+
       },
-      complete: () => console.info('complete')
-    
-        //  this.astronautService.getAstronautOpenNotify().subscribe(
-        //   (resp) => {
-        //     console.log(resp)
-        //   }
-        //  )
-        // console.log('eroooooooooooooooor')
+
+
+
     });
+
+  }
+  
+  private PutResponseIntoArray(v: AstronautsInSpace) {
+    this.astronautArrayAPIRep = v.people;
+
+    this.astronautsDetails = this.astronautArrayAPIRep.filter((obj: any) => {
+      return obj.craft === "ISS";
+    });
+    let i = 0; //index to change the role and nationality manually
     
+    for (let element of this.astronautsDetails) {
+
+      if (i == 0) {
+        element.role = "Capitaine";
+      }
+      else {
+        element.role = "Astronaute";
+      }
+      i++;
+
+    }
+     i = 0
+    for (let element of this.astronautsDetails) {
+
+      if (i <= 1 || i == 6) {
+        element.nationality = "Russe 🇷🇺";
+      }
+      else if(i == 5) {
+        element.nationality = "Japonaise 🇯🇵";
+      }
+      else{
+         element.nationality = 'Américaine 🇺🇸'
+      }
+      i++;
+
+    }
+    console.log(this.astronautsDetails);
   }
 
   updateAstronaut(element: any) {
