@@ -31,7 +31,6 @@
   </cdk-accordion>
   
   
-
   <table mat-table [dataSource]="astronautsDetails" class="mat">
     
 
@@ -107,6 +106,8 @@
  
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  
 </table>
 
 

@@ -61,13 +61,13 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
 
   private scene!: THREE.Scene;
 
-  private IssScene!: any;
+  private IssScene!: THREE.Group;
 
   private controls!: any;
 
   private loader = new GLTFLoader();
 
-  
+   
 
   /**
    *Animate the cube
@@ -75,10 +75,7 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
    * @private
    * @memberof ViewportIssComponent
    */
-  private animateIss() {
-    this.IssScene.rotation.y += this.rotationSpeedY;
-   
-  }
+ 
 
   /**
    * Create the scene
@@ -131,6 +128,11 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
 
 
     
+  }
+
+  private animateIss() {
+    this.IssScene.rotation.y += this.rotationSpeedY;
+   
   }
 
 
