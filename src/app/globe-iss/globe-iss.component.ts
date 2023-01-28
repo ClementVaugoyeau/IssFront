@@ -59,7 +59,7 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
   private DirectionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
   
 
-
+  
 
   private cube: THREE.Mesh = new THREE.Mesh(this.geometry, this.material);
 
@@ -73,12 +73,35 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
 
   private loader = new GLTFLoader();
 
+  //3D iss properties
+
+   private N: number = 1;
+   private IssLong: number = 180;
+
+   
+    
+   public gData = [...Array(this.N).keys()].map(() => ({
+      lat: (1 - 0.5) * 180,
+      lng: (1 - 0.5) * 360,
+      alt: 1 * 0.8 + 0.1,
+      radius: 10,
+      color: 'red'
+    }));
+
+  
+
   private Globe = new ThreeGlobe() 
  .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
  .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
-      .objectLat('lat')
-      .objectLng('lng')
-      .objectAltitude('alt');
+ .customLayerData(this.gData)
+ .customThreeObject(d => new THREE.Mesh(
+  new THREE.SphereGeometry(10),
+  new THREE.MeshLambertMaterial({ color: "blue"})
+  ))
+  .customThreeObjectUpdate((obj) => {
+    Object.assign(obj.position, this.Globe.getCoords(180, this.IssLong, 1));
+  });
+  
   private CubeGeo = new THREE.BoxGeometry(1,1,1)
   private CubeMaterail = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
   private Cube = new THREE.Mesh( this.CubeGeo, this.CubeMaterail );
@@ -89,11 +112,13 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
   @Input()  public SAT_SIZE = 100; // km
   @Input()  public TIME_STEP = 3 * 1000; // per frame
 
-  @Input() public satGeometry = new THREE.OctahedronGeometry(this.SAT_SIZE * this.Globe.getGlobeRadius() / this.EARTH_RADIUS_KM / 2, 0);
+  @Input() public satGeometry = new THREE.OctahedronGeometry(8000);
   @Input() public satMaterial = new THREE.MeshLambertMaterial({ color: 'palegreen', transparent: true, opacity: 0.7 });
   // @Input() public satData = {[name: 'ISS', lat : 33, lng: 34,]}
   // @Input() public satData = []
   @Input()  public IssObj3D = new THREE.Object3D()
+
+  
   
 
   /**
@@ -102,10 +127,7 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
    * @private
    * @memberof GlobeIssComponent
    */
-  private animateIss() {
-    this.IssScene.rotation.y += this.rotationSpeedY;
-   
-  }
+ 
 
   /**
    * Create the scene
@@ -115,9 +137,13 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
    */
   private createScene() {
     //* Scene
-    this.IssObj3D.position.x = 1000;
-    this.IssObj3D.position.y = 1000;
-    this.IssObj3D.position.z = 1000;
+    this.IssObj3D.position.x = 0;
+    this.IssObj3D.position.y = 0;
+    this.IssObj3D.position.z = 0;
+    
+
+    this.Globe.objectThreeObject(() => this.IssObj3D = new THREE.Mesh(this.satGeometry, this.satMaterial));
+    
 
     this.Globe.objectsData([this.IssObj3D])
     this.scene = new THREE.Scene();
@@ -168,16 +194,28 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
     this.renderer.setPixelRatio(devicePixelRatio);
     this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
     this.controls = new OrbitControls( this.camera, this.renderer.domElement );
-    
+    console.log(this.IssObj3D);
     
     let component: GlobeIssComponent = this;
     (function render() {
-      requestAnimationFrame(render);
+
       
+      component.moveSpheres()
+      requestAnimationFrame(render);
+
       component.renderer.render(component.scene, component.camera);
+      
+     
+      
       
     }());
   }
+
+  private moveSpheres() {
+    this.IssLong += 0.1;
+    this.Globe.customLayerData(this.Globe.customLayerData());
+    
+  };
   
   
 
@@ -192,6 +230,7 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
   ngAfterViewInit(): void {
     this.createScene();
     this.startRenderingLoop();
+    
     
   }
 

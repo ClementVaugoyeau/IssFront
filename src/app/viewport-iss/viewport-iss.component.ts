@@ -130,10 +130,10 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
     
   }
 
-  private animateIss() {
-    this.IssScene.rotation.y += this.rotationSpeedY;
+  // private animateIss() {
+  //   this.IssScene.rotation.y += this.rotationSpeedY;
    
-  }
+  // }
 
 
 
@@ -161,7 +161,7 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
     let component: ViewportIssComponent = this;
     (function render() {
       requestAnimationFrame(render);
-      component.animateIss();
+      // component.animateIss();
       component.renderer.render(component.scene, component.camera);
       
     }());
