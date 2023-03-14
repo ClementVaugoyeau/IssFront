@@ -6,7 +6,9 @@ import { catchError, retry } from 'rxjs/operators';
 
 export interface IssPosition {
   timestamp: string,
-  iss_position: {longitude: string, latitude: string},
+   longitude: string, 
+   latitude: string
+   
   
 }
 
@@ -19,8 +21,9 @@ export class IssDataService {
 
 
   // API = 'https://cors-anywhere.herokuapp.com/http://api.open-notify.org/iss-now.json';
-  API = 'http://api.open-notify.org/iss-now.json';
-  // API = 'https://api.wheretheiss.at/v1/satellites/25544';
+  // API = 'http://api.open-notify.org/iss-now.json';
+  API = 'https://api.wheretheiss.at/v1/satellites/25544';
+
 
 
 

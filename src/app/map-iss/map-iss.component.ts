@@ -72,7 +72,7 @@ export class MapIssComponent implements AfterViewInit {
     this.issCurrentPosition = L.marker([this.issLatitude, this.issLongitude], {icon: this.markerIcon}).addTo(this.worldMap)
     this.tiles.addTo(this.worldMap)
     // timer 10000 = 10s
-    this.subscription = timer(0, 100).pipe( 
+    this.subscription = timer(0, 1000).pipe( 
       map(() => { 
         this.getIssPosition(); 
       }) 
@@ -92,8 +92,8 @@ export class MapIssComponent implements AfterViewInit {
     this.issDataService.getIssPosition().subscribe(
       (resp) => {
         
-        this.issLatitude = Number(resp.iss_position.latitude);
-        this.issLongitude = Number(resp.iss_position.longitude)
+        this.issLatitude = Number(resp.latitude);
+        this.issLongitude = Number(resp.longitude)
         this.issCurrentPosition.setLatLng(([this.issLatitude, this.issLongitude]));
         
         
