@@ -194,7 +194,7 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
     this.renderer.setPixelRatio(devicePixelRatio);
     this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
     this.controls = new OrbitControls( this.camera, this.renderer.domElement );
-    console.log(this.IssObj3D);
+    
     
     let component: GlobeIssComponent = this;
     (function render() {

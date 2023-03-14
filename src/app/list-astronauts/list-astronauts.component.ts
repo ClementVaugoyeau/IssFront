@@ -67,7 +67,7 @@ export class ListAstronautsComponent implements OnInit    {
   getAstronautDetails() {
     this.astronautService.getAstronauts().subscribe({
       next: (v) => {
-        console.log(v)
+       
         this.astronautsDetails = v
       },
       error: (e) => {
@@ -126,7 +126,7 @@ export class ListAstronautsComponent implements OnInit    {
       i++;
 
     }
-    console.log(this.astronautsDetails);
+    // console.log(this.astronautsDetails);
   }
 
   updateAstronaut(element: any) {

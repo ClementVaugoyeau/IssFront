@@ -105,8 +105,8 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
     this.IssScene.position.y = -0.3
     
     
-    console.log(gltf.scene.position)
-    console.log(gltf.scene)
+    // console.log(gltf.scene.position)
+    // console.log(gltf.scene)
     
 
   }, undefined, function ( error ) {
