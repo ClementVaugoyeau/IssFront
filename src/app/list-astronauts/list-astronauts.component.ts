@@ -73,7 +73,7 @@ export class ListAstronautsComponent implements OnInit    {
       error: (e) => {
         console.error("local server not responding getting astronaut list from OpenAPI", e)
         this.isLocalAPIOn = false;
-        this.displayedColumns.pop() //delete actons of displayed column
+        this.displayedColumns.pop() //delete actions of displayed column
         
         this.astronautService.getAstronautOpenNotify().subscribe({
 
@@ -94,6 +94,9 @@ export class ListAstronautsComponent implements OnInit    {
   
   private PutResponseIntoArray(v: AstronautsInSpace) {
     this.astronautArrayAPIRep = v.people;
+    console.log(v.people);
+
+
 
     this.astronautsDetails = this.astronautArrayAPIRep.filter((obj: any) => {
       return obj.craft === "ISS";
