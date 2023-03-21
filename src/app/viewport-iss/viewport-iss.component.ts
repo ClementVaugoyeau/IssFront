@@ -93,7 +93,7 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
     this.scene.add(this.DirectionaLight, this.AmbiantLight)
 
 
-    this.loader.load( "/assets/iss-_international_space_station.glb",  ( gltf ) => {
+    this.loader.load( "../assets/iss-_international_space_station.glb",  ( gltf ) => {
     
     this.scene.add(gltf.scene)
  
