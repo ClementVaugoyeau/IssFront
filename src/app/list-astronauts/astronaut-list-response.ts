@@ -3,3 +3,10 @@ export interface AstronautsInSpace {
     people: any;
     number: any;
    }
+
+export interface AstronautsInSpaceOpen {
+    number: number;
+    iss_expedition: number;
+    people: any;
+    
+   }

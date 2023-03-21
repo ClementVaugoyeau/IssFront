@@ -1,13 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AstronautService } from '../services/astronaut.service';
-import {MatTableModule} from '@angular/material/table';
-import { DataSource } from '@angular/cdk/table';
 import { SharedService } from '../services/shared.service';
 import { Subscription,  Observable, of, pipe } from 'rxjs';
-import { map, pluck } from 'rxjs/operators';
 import { AstronautsInSpace } from './astronaut-list-response';
-
-
 
 
 @Component({
@@ -15,43 +10,27 @@ import { AstronautsInSpace } from './astronaut-list-response';
   templateUrl: './list-astronauts.component.html',
   styleUrls: ['./list-astronauts.component.scss']
 })
-export class ListAstronautsComponent implements OnInit    {
-  title = "astronautList"
+export class ListAstronautsComponent implements OnInit {
+  
+  title = "astronautList";
+  displayedColumns: string[] = ['No', 'name', 'role', 'nationality', 'actions'];
+  items = ['Liste des astronautes à bord de la station'];
 
   astronautsDetails = null as any
   astronautArrayAPIRep: any = [];
-
+  
   isLocalAPIOn = true;
-
-
-  index = 1;
-
-  displayedColumns: string[] = ['No', 'name', 'role', 'nationality', 'actions'];
-
-  items = ['Liste des astronautes à bord de la station'];
-  expandedIndex = 0;
-
   getAstronautEventsubcription: Subscription;
-
-  astronautModel!: AstronautsInSpace;
-
 
   constructor(private astronautService: AstronautService, private sharedService: SharedService) {
 
-    
-      
-    
-
-
-   this.getAstronautEventsubcription = this.sharedService.getAstronaut().subscribe(() => {
+  this.getAstronautEventsubcription = this.sharedService.getAstronaut().subscribe(() => {
       this.getAstronautDetails();
     })
   }
 
   ngOnInit(): void {
-
-    this.getAstronautDetails();
-
+     this.getAstronautDetails();
   }
 
   onEdit(item: any) {
@@ -61,8 +40,6 @@ export class ListAstronautsComponent implements OnInit    {
     });
     item.isEdit = true;
   }
-
- 
 
   getAstronautDetails() {
     this.astronautService.getAstronauts().subscribe({
@@ -78,29 +55,22 @@ export class ListAstronautsComponent implements OnInit    {
         this.astronautService.getAstronautOpenNotify().subscribe({
 
           next: (v) => {
-
-            this.PutResponseIntoArray(v);
+           this.PutResponseIntoArray(v);
           },
         })
-
-
       },
-
-
-
     });
-
   }
   
   private PutResponseIntoArray(v: AstronautsInSpace) {
-    this.astronautArrayAPIRep = v.people;
-    console.log(v.people);
-
-
-
-    this.astronautsDetails = this.astronautArrayAPIRep.filter((obj: any) => {
-      return obj.craft === "ISS";
-    });
+    for (let index = 0; index < v.people.length; index++) {
+         if(v.people[index].iss == true){
+          this.astronautArrayAPIRep.push(v.people[index]);
+         }
+    }
+      
+    this.astronautsDetails = this.astronautArrayAPIRep
+    
     let i = 0; //index to change the role and nationality manually
     
     for (let element of this.astronautsDetails) {
@@ -112,24 +82,7 @@ export class ListAstronautsComponent implements OnInit    {
         element.role = "Astronaute";
       }
       i++;
-
     }
-     i = 0
-    for (let element of this.astronautsDetails) {
-
-      if (i <= 1 || i == 6) {
-        element.nationality = "Russe 🇷🇺";
-      }
-      else if(i == 5) {
-        element.nationality = "Japonaise 🇯🇵";
-      }
-      else{
-         element.nationality = 'Américaine 🇺🇸'
-      }
-      i++;
-
-    }
-    // console.log(this.astronautsDetails);
   }
 
   updateAstronaut(element: any) {
@@ -137,16 +90,12 @@ export class ListAstronautsComponent implements OnInit    {
     let astronautsToUpdate = {
       "name": element.name,
       "role": element.role,
-      "nationality": element.nationality
-
+      "nationality": element.country
     }
    
-
     this.astronautService.putAstronauts(astronautsToUpdate, element.id).subscribe(
       (resp) => {
-       
-        this.getAstronautDetails()
-        
+       this.getAstronautDetails()
       },
       (err) => {
         console.log(err)
@@ -158,18 +107,11 @@ export class ListAstronautsComponent implements OnInit    {
     
     this.astronautService.DeleteAstronauts(element.id).subscribe(
       (resp) => {
-       
         this.getAstronautDetails()
-        
       },
       (err) => {
         console.log(err)
       }
     )
   }
-
-  
-
-  
-
 }
