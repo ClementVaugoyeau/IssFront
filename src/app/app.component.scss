@@ -79,18 +79,21 @@ a:hover {
 
 
 .list-container {
-  
+ 
   
 }
 
-#list-view {
+#list-view  {
   
-  flex: 20%;
+  
+  margin-right: 10px;
+  
+  
   
 }
 
 #maps-view {
-  margin-top: 10px;
+  
   border-radius: 5px;
   flex: 50%;
   
@@ -100,7 +103,7 @@ a:hover {
 .map-container {
   position: relative;
   margin-top: 10px;
-   flex: 50%;
+  
   height: 400px;
 }
 
@@ -126,8 +129,58 @@ a:hover {
 }
 
 /* Responsive Styles */
-// @media screen and (max-width: 767px) {
-//   .card-container > *:not(.circle-link) ,
-//   .terminal {
-//     width: 100%;
-//   }
+@media screen and (max-width: 600px) {
+
+  .content {
+    margin: 82px auto 32px;
+    padding: 0 16px;
+    max-width: 1920px;
+    display: flex;
+    flex-direction: column;
+    
+  }
+  
+  
+  #list-view {
+    margin-right: 0px;
+    flex: 20%;
+    
+  }
+  
+  #maps-view {
+    margin-top: 10px;
+    border-radius: 5px;
+    flex: 50%;
+    
+  }
+  
+  
+  .map-container {
+    position: relative;
+    margin-top: 10px;
+     flex: 50%;
+    height: 400px;
+   
+  }
+  
+  #iss-3D-view{
+    border-radius: 5px;
+    margin-top: 10px;
+    
+  }
+  
+  
+  .view-container-iss{
+    padding: 20px;
+    
+    
+  }
+  
+  .toolbar-Title {
+   
+  }
+  
+  #toolbar-icon {
+    
+  }
+}
