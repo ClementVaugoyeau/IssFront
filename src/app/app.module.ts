@@ -16,6 +16,7 @@ import { AddFormComponent } from './add-form/add-form.component';
 import {MatInputModule} from '@angular/material/input';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { OverlayModule } from '@angular/cdk/overlay';
 import { GlobeIssComponent } from './globe-iss/globe-iss.component';
 import { ViewportIssComponent } from './viewport-iss/viewport-iss.component';
 
@@ -48,7 +49,8 @@ import { ViewportIssComponent } from './viewport-iss/viewport-iss.component';
     ReactiveFormsModule,
     MatInputModule,
     MatTabsModule,
-    MatExpansionModule
+    MatExpansionModule,
+    OverlayModule
     
   
     

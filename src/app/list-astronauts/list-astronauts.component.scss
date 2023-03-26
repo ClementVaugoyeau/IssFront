@@ -22,16 +22,17 @@
   }
 
   table{
-    width: 500px;
+    width: fit-content +10px;
     height: 300px;
     margin-left: 10px;
+    
     
     border: solid rgb(255, 255, 255);
   }
 
 #container{
     border-radius: 5px;
-    margin-left: 20px;
+    
 }
 
 .tittle-add-button{
@@ -43,9 +44,6 @@
   margin-left: 20px;
   margin-top: 10px;
 }
-
-
-
 
 #add-astronaut-form{
   margin-left: 30px;

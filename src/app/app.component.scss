@@ -80,7 +80,7 @@ a:hover {
 
 .list-container {
   
-  padding-right: 20px;
+  
 }
 
 #list-view {
@@ -90,6 +90,7 @@ a:hover {
 }
 
 #maps-view {
+  margin-top: 10px;
   border-radius: 5px;
   flex: 50%;
   
@@ -98,32 +99,30 @@ a:hover {
 
 .map-container {
   position: relative;
-  
-
-  width: 700px;
+  margin-top: 10px;
+   flex: 50%;
   height: 400px;
 }
 
 #iss-3D-view{
   border-radius: 5px;
-  margin-left: 20px;
   margin-top: 10px;
-  flex: 1%;
+  
 }
 
 
 .view-container-iss{
   padding: 20px;
-  width: auto;
+  
   
 }
 
 .toolbar-Title {
-  margin-left: 10px;
+ 
 }
 
 #toolbar-icon {
-  margin-left: 20px;
+  
 }
 
 /* Responsive Styles */

@@ -44,11 +44,10 @@ export class ListAstronautsComponent implements OnInit {
   getAstronautDetails() {
     this.astronautService.getAstronauts().subscribe({
       next: (v) => {
-       
         this.astronautsDetails = v
       },
       error: (e) => {
-        console.error("local server not responding getting astronaut list from OpenAPI", e)
+        console.warn("local server not responding getting astronaut list from OpenAPI", e)
         this.isLocalAPIOn = false;
         this.displayedColumns.pop() //delete actions of displayed column
         
