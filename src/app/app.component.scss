@@ -1,6 +1,6 @@
 :host {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 14px;
   color: #333;
   box-sizing: border-box;
@@ -61,7 +61,7 @@ p {
   margin: 82px auto 32px;
   padding: 0 16px;
   max-width: 1920px;
-  display:  flex;
+  display: flex;
   flex-wrap: wrap;
 }
 
@@ -76,111 +76,81 @@ a:hover {
   color: #125699;
 }
 
-
-
 .list-container {
- 
-  
 }
 
-#list-view  {
-  
-  
+#list-view {
   margin-right: 10px;
-  
-  
-  
+  flex: 25%;
 }
 
 #maps-view {
-  
   border-radius: 5px;
   flex: 50%;
-  
 }
-
 
 .map-container {
   position: relative;
   margin-top: 10px;
-  
+
   height: 400px;
 }
 
-#iss-3D-view{
+#iss-3D-view {
   border-radius: 5px;
   margin-top: 10px;
-  
 }
 
-
-.view-container-iss{
+.view-container-iss {
   padding: 20px;
-  
-  
 }
 
 .toolbar-Title {
- 
 }
 
 #toolbar-icon {
-  
 }
 
 /* Responsive Styles */
 @media screen and (max-width: 600px) {
-
   .content {
     margin: 82px auto 32px;
     padding: 0 16px;
     max-width: 1920px;
     display: flex;
     flex-direction: column;
-    
   }
-  
-  
+
   #list-view {
     margin-right: 0px;
-    flex: 20%;
-    
+    flex: 25%;
   }
-  
+
   #maps-view {
     margin-top: 10px;
     border-radius: 5px;
     flex: 50%;
-    
   }
-  
-  
+
   .map-container {
     position: relative;
     margin-top: 10px;
-     flex: 50%;
+    flex: 50%;
     height: 400px;
-   
   }
-  
-  #iss-3D-view{
+
+  #iss-3D-view {
     border-radius: 5px;
     margin-top: 10px;
-    
   }
-  
-  
-  .view-container-iss{
+
+  .view-container-iss {
     padding: 20px;
-    
-    
   }
-  
+
   .toolbar-Title {
-   
   }
-  
+
   #toolbar-icon {
-    
   }
 }
