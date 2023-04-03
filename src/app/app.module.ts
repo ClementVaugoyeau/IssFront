@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
 //Fonction module
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 
 //Components
 import { AppComponent } from './app.component';
@@ -21,10 +20,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { CdkAccordionModule } from '@angular/cdk/accordion'; 
+import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OverlayModule } from '@angular/cdk/overlay';
-
 
 @NgModule({
   declarations: [
@@ -49,9 +47,9 @@ import { OverlayModule } from '@angular/cdk/overlay';
     MatInputModule,
     MatTabsModule,
     MatExpansionModule,
-    OverlayModule
+    OverlayModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
