@@ -1,3 +1,11 @@
+#canvas {
+  height: 100%;
+  width: 100%;
+}
 
-  
-    
+@media screen and (max-width: 600px) {
+  #canvas {
+    height: 250%;
+    width: 100%;
+  }
+}
