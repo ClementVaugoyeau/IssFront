@@ -76,9 +76,6 @@ a:hover {
   color: #125699;
 }
 
-.list-container {
-}
-
 #list-view {
   margin-right: 10px;
   flex: 25%;
@@ -92,7 +89,6 @@ a:hover {
 .map-container {
   position: relative;
   margin-top: 10px;
-
   height: 400px;
 }
 
@@ -105,11 +101,6 @@ a:hover {
   padding: 20px;
 }
 
-.toolbar-Title {
-}
-
-#toolbar-icon {
-}
 
 /* Responsive Styles */
 @media screen and (max-width: 600px) {
@@ -148,9 +139,4 @@ a:hover {
     padding: 20px;
   }
 
-  .toolbar-Title {
-  }
-
-  #toolbar-icon {
-  }
 }
