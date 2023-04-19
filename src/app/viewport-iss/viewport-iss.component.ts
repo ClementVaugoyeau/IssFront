@@ -51,27 +51,13 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
   private get canvas(): HTMLCanvasElement {
     return this.canvasRef.nativeElement;
   }
-  private Texloader = new THREE.TextureLoader();
-
-  private geometry = new THREE.BoxGeometry(1, 1, 1);
-  private material = new THREE.MeshStandardMaterial({
-    color: 0x479e9e,
-    wireframe: false,
-  });
+  
   private AmbiantLight = new THREE.AmbientLight(0x404040, 1);
   private DirectionaLight = new THREE.PointLight(0x404040, 7);
-  private DLighthelper = new THREE.PointLightHelper(this.DirectionaLight, 5);
-
-  private cube: THREE.Mesh = new THREE.Mesh(this.geometry, this.material);
-
   private renderer!: THREE.WebGLRenderer;
-
   private scene!: THREE.Scene;
-
   private IssScene!: THREE.Group;
-
   private controls!: any;
-
   private loader = new GLTFLoader();
 
   /**

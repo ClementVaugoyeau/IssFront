@@ -1,124 +1,15 @@
 <!-- Toolbar -->
 <div class="toolbar" role="banner">
-  
-  <svg
-    id="toolbar-icon-ISS"
-    xmlns="http://www.w3.org/2000/svg"
-    width="70"
-    height="50"
-    viewBox="0 0 31 31"
-  >
-    <defs>
-      <style>
-        .cls-1,
-        .cls-4,
-        .cls-5 {
-          fill: #3fa9f5;
-        }
 
-        .cls-2 {
-          fill: #2981ca;
-          opacity: 0.51;
-        }
+  <img id="toolbar-icon-ISS" src="../assets/toolbar-icon-ISS.svg">
 
-        .cls-3 {
-          fill: #317397;
-        }
-
-        .cls-4,
-        .cls-5 {
-          stroke: #fff;
-          stroke-linecap: round;
-          stroke-miterlimit: 10;
-        }
-
-        .cls-5 {
-          stroke-width: 2px;
-          opacity: 0.97;
-        }
-      </style>
-    </defs>
-    <title>ISS icon</title>
-    <g id="Layer_2" data-name="Layer 2">
-      <g id="Layer_6" data-name="Layer 6">
-        <circle class="cls-1" cx="15.5" cy="15.5" r="15.5" />
-        <circle class="cls-2" cx="15.5" cy="15.5" r="13" />
-      </g>
-      <g id="Layer_7" data-name="Layer 7">
-        <polygon
-          class="cls-3"
-          points="10.51 16.58 6.48 14.35 7.21 13.97 11.24 16.21 10.51 16.58"
-        />
-        <polygon
-          class="cls-3"
-          points="9.41 17.33 5.38 15.09 6.12 14.72 10.14 16.96 9.41 17.33"
-        />
-        <polygon
-          class="cls-3"
-          points="7.58 17.7 3.55 15.46 4.28 15.09 8.31 17.33 7.58 17.7"
-        />
-        <polygon
-          class="cls-3"
-          points="13.07 20.69 9.04 18.45 9.78 18.08 13.8 20.32 13.07 20.69"
-        />
-        <polygon
-          class="cls-3"
-          points="16 19.57 11.97 17.33 12.71 16.96 16.73 19.2 16 19.57"
-        />
-        <polygon
-          class="cls-3"
-          points="25.16 15.46 20.03 13.22 20.4 12.85 25.89 15.09 25.16 15.46"
-        />
-        <polygon
-          class="cls-3"
-          points="25.89 15.09 20.76 12.85 21.13 12.48 26.62 14.72 25.89 15.09"
-        />
-        <polygon
-          class="cls-3"
-          points="26.99 14.72 21.86 12.48 22.23 12.11 27.72 14.35 26.99 14.72"
-        />
-        <polygon
-          class="cls-3"
-          points="27.72 14.35 22.59 12.11 22.96 11.73 28.45 13.97 27.72 14.35"
-        />
-        <polygon
-          class="cls-3"
-          points="18.41 12.48 14.17 10.69 14.47 10.39 19.01 12.18 18.41 12.48"
-        />
-        <polygon
-          class="cls-3"
-          points="19.01 12.18 14.78 10.39 15.08 10.09 19.62 11.88 19.01 12.18"
-        />
-        <polygon
-          class="cls-3"
-          points="19.92 11.88 15.68 10.09 15.99 9.79 20.52 11.58 19.92 11.88"
-        />
-        <polygon
-          class="cls-3"
-          points="20.52 11.58 16.29 9.79 16.59 9.49 21.13 11.29 20.52 11.58"
-        />
-        <polygon
-          class="cls-3"
-          points="14.54 20.32 10.51 18.08 11.24 17.7 15.27 19.94 14.54 20.32"
-        />
-        <polygon
-          class="cls-3"
-          points="11.61 21.43 7.58 19.2 8.31 18.82 12.34 21.06 11.61 21.43"
-        />
-        <polygon
-          class="cls-3"
-          points="6.48 18.45 2.45 16.21 3.19 15.84 7.21 18.08 6.48 18.45"
-        />
-        <line class="cls-4" x1="7.34" y1="18.82" x2="21.98" y2="11.36" />
-        <line class="cls-5" x1="18.02" y1="16.4" x2="11.42" y2="13.04" />
-      </g>
-    </g>
-  </svg>
 
   <h1 class="toolbar-Title">Tableau de bord de l'ISS</h1>
 </div>
 
 <div class="content" role="main">
+  <div id="description" class="mat-elevation-z4">
+    Welcome to ISS dashboard, here you can see infos about the international space station.</div>
   <div id="list-view">
     <div class="list-container">
       <app-list-astronauts></app-list-astronauts>
@@ -133,8 +24,7 @@
         </div>
       </mat-tab>
 
-      <mat-tab label="Globe 3D"
-        ><ng-template matTabContent>
+      <mat-tab label="Globe 3D"><ng-template matTabContent>
           <app-globe-iss></app-globe-iss>
         </ng-template>
       </mat-tab>

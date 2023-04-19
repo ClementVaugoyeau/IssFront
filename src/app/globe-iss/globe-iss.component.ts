@@ -10,7 +10,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import ThreeGlobe from 'three-globe';
-import { Vector3 } from 'three';
+
 
 @Component({
   selector: 'app-globe-iss',
@@ -30,6 +30,9 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
   @Input() public size: number = 200;
 
   @Input() public texture: string = '/assets/texture.jpg';
+
+  @Input() public issModel: string =
+  '/assets/iss-_international_space_station.glb';
 
   //* Stage Properties
 
@@ -52,7 +55,7 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
   }
   private Texloader = new THREE.TextureLoader();
 
-  private geometry = new THREE.BoxGeometry(1, 1, 1);
+  
   private material = new THREE.MeshStandardMaterial({
     color: 0x479e9e,
     wireframe: false,
@@ -60,13 +63,14 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
   private AmbiantLight = new THREE.AmbientLight(0xbbbbbb);
   private DirectionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
 
-  private cube: THREE.Mesh = new THREE.Mesh(this.geometry, this.material);
+ 
 
   private renderer!: THREE.WebGLRenderer;
 
   private scene!: THREE.Scene;
 
   private IssScene!: any;
+  private Iss3DObject!: any;
 
   private controls!: any;
 
@@ -86,36 +90,33 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
   }));
 
   private Globe = new ThreeGlobe()
-    .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
-    .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
-    .customLayerData(this.gData)
-    .customThreeObject(
-      (d) =>
-        new THREE.Mesh(
-          new THREE.SphereGeometry(10),
-          new THREE.MeshLambertMaterial({ color: 'blue' })
-        )
-    )
-    .customThreeObjectUpdate((obj) => {
-      Object.assign(obj.position, this.Globe.getCoords(180, this.IssLong, 1));
-    });
+    // .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
+    // .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
+    // .customLayerData(this.gData)
+    // .customThreeObject(
+    //   // (d) =>
+    //   //   new THREE.Mesh(
+    //   //     new THREE.BoxGeometry(8, 8),
+    //   //     new THREE.MeshLambertMaterial({ color: 'red' })
+    //       //  new THREE.ObjectLoader()
+    //       this.Iss3DObject
+    //     )
+    
+    
+    // .customThreeObjectUpdate((obj) => {
+    //   Object.assign(obj.position, this.Globe.getCoords(180, this.IssLong, 1))
+    //   ;
+    // });
 
   private CubeGeo = new THREE.BoxGeometry(1, 1, 1);
   private CubeMaterail = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
   private Cube = new THREE.Mesh(this.CubeGeo, this.CubeMaterail);
 
-  //* Globe properties
+  private geometryISS = new THREE.BufferGeometry();
 
-  @Input() public EARTH_RADIUS_KM = 6371; // km
-  @Input() public SAT_SIZE = 100; // km
-  @Input() public TIME_STEP = 3 * 1000; // per frame
+    
 
-  @Input() public satGeometry = new THREE.OctahedronGeometry(8000);
-  @Input() public satMaterial = new THREE.MeshLambertMaterial({
-    color: 'palegreen',
-    transparent: true,
-    opacity: 0.7,
-  });
+  
   // @Input() public satData = {[name: 'ISS', lat : 33, lng: 34,]}
   // @Input() public satData = []
   @Input() public IssObj3D = new THREE.Object3D();
@@ -135,21 +136,58 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
    */
   private createScene() {
     //* Scene
-    this.IssObj3D.position.x = 0;
-    this.IssObj3D.position.y = 0;
-    this.IssObj3D.position.z = 0;
+  
 
-    this.Globe.objectThreeObject(
-      () => (this.IssObj3D = new THREE.Mesh(this.satGeometry, this.satMaterial))
-    );
 
-    this.Globe.objectsData([this.IssObj3D]);
+    // this.Globe.objectsData([this.IssObj3D]);
     this.scene = new THREE.Scene();
-    this.scene.add(this.Globe);
+    // this.scene.add(this.Globe);
 
     this.scene.background = new THREE.Color(0x00000);
-
     this.scene.add(this.AmbiantLight, this.DirectionalLight);
+
+    const positions = [
+      0,   0, 0,    // v1
+      0, 10, 0,   // v2
+      0, 10, 10  // v3
+      ];
+
+      this.geometryISS.setAttribute( 'position', new THREE.Float32BufferAttribute( positions, 3 ) );
+      this.geometryISS.computeVertexNormals()
+
+
+    
+
+    
+    this.loader.load(
+      'https://clementvaugoyeau.github.io/IssFront/assets/iss-_international_space_station.glb',
+      (gltf) => {
+
+        
+        // this.scene.add(gltf.scene);
+
+        this.Globe.globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
+        .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
+        .customLayerData(this.gData)
+        .customThreeObject( (d) =>
+             new THREE.Mesh(
+             this.geometryISS,
+             new THREE.MeshBasicMaterial({ color: 0xffffff })
+             
+               ))
+        .customThreeObjectUpdate((obj) => {
+          Object.assign(obj.position, this.Globe.getCoords(180, this.IssLong, 1))
+          ;
+        });
+      
+      },
+      undefined,
+      function (error) {
+        console.error(error);
+      }
+    );
+
+    this.scene.add(this.Globe);
 
     //*Camera
     let aspectRatio = this.getAspectRatio();
