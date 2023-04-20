@@ -11,7 +11,6 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import ThreeGlobe from 'three-globe';
 
-
 @Component({
   selector: 'app-globe-iss',
   templateUrl: './globe-iss.component.html',
@@ -32,7 +31,7 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
   @Input() public texture: string = '/assets/texture.jpg';
 
   @Input() public issModel: string =
-  '/assets/iss-_international_space_station.glb';
+    '/assets/iss-_international_space_station.glb';
 
   //* Stage Properties
 
@@ -55,15 +54,12 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
   }
   private Texloader = new THREE.TextureLoader();
 
-  
   private material = new THREE.MeshStandardMaterial({
     color: 0x479e9e,
     wireframe: false,
   });
   private AmbiantLight = new THREE.AmbientLight(0xbbbbbb);
   private DirectionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
-
- 
 
   private renderer!: THREE.WebGLRenderer;
 
@@ -89,37 +85,15 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
     color: 'red',
   }));
 
-  private Globe = new ThreeGlobe()
-    // .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
-    // .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
-    // .customLayerData(this.gData)
-    // .customThreeObject(
-    //   // (d) =>
-    //   //   new THREE.Mesh(
-    //   //     new THREE.BoxGeometry(8, 8),
-    //   //     new THREE.MeshLambertMaterial({ color: 'red' })
-    //       //  new THREE.ObjectLoader()
-    //       this.Iss3DObject
-    //     )
-    
-    
-    // .customThreeObjectUpdate((obj) => {
-    //   Object.assign(obj.position, this.Globe.getCoords(180, this.IssLong, 1))
-    //   ;
-    // });
+  private Globe = new ThreeGlobe();
 
-  private CubeGeo = new THREE.BoxGeometry(1, 1, 1);
-  private CubeMaterail = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-  private Cube = new THREE.Mesh(this.CubeGeo, this.CubeMaterail);
 
-  private geometryISS = new THREE.BufferGeometry();
 
-    
+
+  private geometryISS: any;
 
   
-  // @Input() public satData = {[name: 'ISS', lat : 33, lng: 34,]}
-  // @Input() public satData = []
-  @Input() public IssObj3D = new THREE.Object3D();
+ 
 
   /**
    *Animate the cube
@@ -135,51 +109,30 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
    * @memberof GlobeIssComponent
    */
   private createScene() {
-    //* Scene
-  
-
-
-    // this.Globe.objectsData([this.IssObj3D]);
     this.scene = new THREE.Scene();
-    // this.scene.add(this.Globe);
 
-    this.scene.background = new THREE.Color(0x00000);
-    this.scene.add(this.AmbiantLight, this.DirectionalLight);
-
-    const positions = [
-      0,   0, 0,    // v1
-      0, 10, 0,   // v2
-      0, 10, 10  // v3
-      ];
-
-      this.geometryISS.setAttribute( 'position', new THREE.Float32BufferAttribute( positions, 3 ) );
-      this.geometryISS.computeVertexNormals()
-
-
-    
-
-    
     this.loader.load(
-      'https://clementvaugoyeau.github.io/IssFront/assets/iss-_international_space_station.glb',
+      '/assets/iss_model.glb',
       (gltf) => {
+        this.geometryISS = gltf.scene.getObjectByName('iss');
+        console.log(this.geometryISS);
 
-        
         // this.scene.add(gltf.scene);
 
-        this.Globe.globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
-        .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
-        .customLayerData(this.gData)
-        .customThreeObject( (d) =>
-             new THREE.Mesh(
-             this.geometryISS,
-             new THREE.MeshBasicMaterial({ color: 0xffffff })
-             
-               ))
-        .customThreeObjectUpdate((obj) => {
-          Object.assign(obj.position, this.Globe.getCoords(180, this.IssLong, 1))
-          ;
-        });
-      
+        this.Globe.globeImageUrl(
+          '//unpkg.com/three-globe/example/img/earth-blue-marble.jpg'
+        )
+          .bumpImageUrl(
+            '//unpkg.com/three-globe/example/img/earth-topology.png'
+          )
+          .customLayerData(this.gData)
+          .customThreeObject(this.geometryISS)
+          .customThreeObjectUpdate((obj) => {
+            Object.assign(
+              obj.position,
+              this.Globe.getCoords(180, this.IssLong, 1)
+            );
+          });
       },
       undefined,
       function (error) {
