@@ -95,27 +95,21 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
       (gltf) => {
         this.geometryISS = gltf.scene.getObjectByName('iss');
         console.log(this.geometryISS);
+        this.geometryISS.rotateZ( Math.PI / 2 );
 
-
-
-
-        this.Globe
+          this.Globe
           .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
           .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
           .customLayerData(this.gData)
           .customThreeObject(this.geometryISS)
-
           .customThreeObjectUpdate((obj) => {
             Object.assign(
               obj.position,
               this.Globe.getCoords(this.issLatitude, this.issLongitude, 0.5),
+              );
+            });
 
-            );
-          });
-
-
-
-      },
+          },
       undefined,
       function (error) {
         console.error(error);
