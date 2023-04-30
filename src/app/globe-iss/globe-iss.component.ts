@@ -92,8 +92,8 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
 
   private geometryISS: any;
 
-  
- 
+
+
 
   /**
    *Animate the cube
@@ -119,12 +119,8 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
 
         // this.scene.add(gltf.scene);
 
-        this.Globe.globeImageUrl(
-          '//unpkg.com/three-globe/example/img/earth-blue-marble.jpg'
-        )
-          .bumpImageUrl(
-            '//unpkg.com/three-globe/example/img/earth-topology.png'
-          )
+        this.Globe.globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
+          .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
           .customLayerData(this.gData)
           .customThreeObject(this.geometryISS)
           .customThreeObjectUpdate((obj) => {
@@ -134,10 +130,7 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
             );
           });
       },
-      undefined,
-      function (error) {
-        console.error(error);
-      }
+
     );
 
     this.scene.add(this.Globe);
