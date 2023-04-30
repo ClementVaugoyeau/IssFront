@@ -1,15 +1,9 @@
-import {
-  Component,
-  AfterViewInit,
-  ElementRef,
-  Input,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, AfterViewInit, ElementRef, Input, OnInit, ViewChild, } from '@angular/core';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import ThreeGlobe from 'three-globe';
+import { IssDataService } from '../services/iss-data.service';
 
 @Component({
   selector: 'app-globe-iss',
@@ -22,28 +16,21 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
 
   //* Cube Properties
 
-  @Input() public rotationSpeedX: number = 0.01;
+  rotationSpeedX: number = 0.01;
 
-  @Input() public rotationSpeedY: number = 0.001;
+  rotationSpeedY: number = 0.001;
 
-  @Input() public size: number = 200;
-
-  @Input() public texture: string = '/assets/texture.jpg';
-
-  @Input() public issModel: string =
-    '/assets/iss-_international_space_station.glb';
+  size: number = 200;
 
   //* Stage Properties
 
-  @Input() public cameraZ: number = 60;
-  @Input() public cameraY: number = 20;
-  @Input() public cameraX: number = 50;
+  cameraZ: number = 60;
+  cameraY: number = 20;
+  cameraX: number = 50;
 
-  @Input() public fieldOfView: number = 1;
-
-  @Input('nearClipping') public nearClippingPlane: number = 1;
-
-  @Input('farClipping') public farClippingPlane: number = 1000000;
+  fieldOfView: number = 1;
+  nearClippingPlane: number = 1;
+  farClippingPlane: number = 1000000;
 
   //? Helper Properties (Private Properties);
 
@@ -52,24 +39,13 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
   private get canvas(): HTMLCanvasElement {
     return this.canvasRef.nativeElement;
   }
-  private Texloader = new THREE.TextureLoader();
 
-  private material = new THREE.MeshStandardMaterial({
-    color: 0x479e9e,
-    wireframe: false,
-  });
-  private AmbiantLight = new THREE.AmbientLight(0xbbbbbb);
-  private DirectionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
+  AmbiantLight = new THREE.AmbientLight(0xbbbbbb);
+  DirectionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
 
   private renderer!: THREE.WebGLRenderer;
-
   private scene!: THREE.Scene;
-
-  private IssScene!: any;
-  private Iss3DObject!: any;
-
   private controls!: any;
-
   private loader = new GLTFLoader();
 
   //3D iss properties
@@ -87,12 +63,12 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
 
   private Globe = new ThreeGlobe();
 
-
-
-
   private geometryISS: any;
 
-
+  //variable for the service
+  issLongitude: number = 0;
+  issLatitude: number = 0;
+  issCurrentPosition: any;
 
 
   /**
@@ -109,7 +85,10 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
    * @memberof GlobeIssComponent
    */
   private createScene() {
+
     this.scene = new THREE.Scene();
+
+    this.getIssPosition()
 
     this.loader.load(
       '/assets/iss_model.glb',
@@ -117,22 +96,37 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
         this.geometryISS = gltf.scene.getObjectByName('iss');
         console.log(this.geometryISS);
 
-        // this.scene.add(gltf.scene);
 
-        this.Globe.globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
+
+
+        this.Globe
+          .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
           .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
           .customLayerData(this.gData)
           .customThreeObject(this.geometryISS)
+
           .customThreeObjectUpdate((obj) => {
             Object.assign(
               obj.position,
-              this.Globe.getCoords(180, this.IssLong, 1)
+              this.Globe.getCoords(this.issLatitude, this.issLongitude, 0.5),
+
             );
           });
-      },
 
+
+
+      },
+      undefined,
+      function (error) {
+        console.error(error);
+      }
     );
 
+    //background color, color of space
+    this.scene.background = new THREE.Color(0x00000);
+
+    //light
+    this.scene.add(this.AmbiantLight, this.DirectionalLight);
     this.scene.add(this.Globe);
 
     //*Camera
@@ -180,12 +174,28 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
     this.Globe.customLayerData(this.Globe.customLayerData());
   }
 
-  constructor() {}
+  constructor(private issDataService: IssDataService) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   ngAfterViewInit(): void {
     this.createScene();
     this.startRenderingLoop();
+  }
+
+  getIssPosition() {
+    this.issDataService.getIssPosition().subscribe(
+      (resp) => {
+        this.issLatitude = Number(resp.latitude);
+        this.issLongitude = Number(resp.longitude);
+        this.issCurrentPosition.setLatLng([
+          this.issLatitude,
+          this.issLongitude,
+        ]);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 }
