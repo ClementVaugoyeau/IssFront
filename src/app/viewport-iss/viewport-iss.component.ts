@@ -21,28 +21,26 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
 
   //* Cube Properties
 
-  @Input() public rotationSpeedX: number = 0.01;
+  public rotationSpeedX: number = 0.01;
 
-  @Input() public rotationSpeedY: number = 0.001;
+  public rotationSpeedY: number = 0.001;
 
-  @Input() public size: number = 200;
+  public size: number = 200;
 
-  @Input() public texture: string = '/assets/texture.jpg';
+  public texture: string = '/assets/texture.jpg';
 
-  @Input() public issModel: string =
+  public issModel: string =
     '/assets/iss-_international_space_station.glb';
 
   //* Stage Properties
 
-  @Input() public cameraZ: number = 60;
-  @Input() public cameraY: number = 20;
-  @Input() public cameraX: number = 50;
 
-  @Input() public fieldOfView: number = 1;
-
-  @Input('nearClipping') public nearClippingPlane: number = 1;
-
-  @Input('farClipping') public farClippingPlane: number = 1000;
+  public cameraZ: number = 60;
+  public cameraY: number = 20;
+  public cameraX: number = 50;
+  public fieldOfView: number = 1;
+  public nearClippingPlane: number = 1;
+  public farClippingPlane: number = 1000;
 
   //? Helper Properties (Private Properties);
 
@@ -51,7 +49,7 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
   private get canvas(): HTMLCanvasElement {
     return this.canvasRef.nativeElement;
   }
-  
+
   private AmbiantLight = new THREE.AmbientLight(0x404040, 1);
   private DirectionaLight = new THREE.PointLight(0x404040, 7);
   private renderer!: THREE.WebGLRenderer;
@@ -60,19 +58,7 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
   private controls!: any;
   private loader = new GLTFLoader();
 
-  /**
-   *Animate the cube
-   *
-   * @private
-   * @memberof ViewportIssComponent
-   */
-
-  /**
-   * Create the scene
-   *
-   * @private
-   * @memberof ViewportIssComponent
-   */
+ 
   private createScene() {
     //* Scene
     this.scene = new THREE.Scene();
@@ -93,8 +79,7 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
         this.IssScene.scale.z = 10;
         this.IssScene.position.y = -0.3;
 
-        // console.log(gltf.scene.position)
-        // console.log(gltf.scene)
+
       },
       undefined,
       function (error) {
@@ -103,6 +88,7 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
     );
     //*Camera
     let aspectRatio = this.getAspectRatio();
+
     this.camera = new THREE.PerspectiveCamera(
       this.fieldOfView,
       aspectRatio,
@@ -112,6 +98,8 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
     this.camera.position.z = this.cameraZ;
     this.camera.position.y = this.cameraY;
     this.camera.position.x = this.cameraX;
+
+
   }
 
   // private animateIss() {

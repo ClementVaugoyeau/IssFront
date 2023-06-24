@@ -27,6 +27,7 @@ export class MapIssComponent implements AfterViewInit {
     shadowAnchor: [22, 94],
   });
   issCurrentPosition: any;
+   polylinePoints:any = [];
 
   markerCreated = false;
 
@@ -50,13 +51,18 @@ export class MapIssComponent implements AfterViewInit {
     this.initMap();
     this.issCurrentPosition = L.marker([this.issLatitude, this.issLongitude], {
       icon: this.markerIcon,
+
     }).addTo(this.worldMap);
     this.tiles.addTo(this.worldMap);
+
+
     // timer 10000 = 10s
     this.subscription = timer(0, 10000)
       .pipe(
         map(() => {
           this.getIssPosition();
+          console.log(this.polylinePoints)
+          var polyline = L.polyline(this.polylinePoints, {color: 'blue'}).addTo(this.worldMap);
         })
       )
       .subscribe();
@@ -75,6 +81,7 @@ export class MapIssComponent implements AfterViewInit {
           this.issLatitude,
           this.issLongitude,
         ]);
+        this.polylinePoints.push([this.issLatitude, this.issLongitude]);
       },
       (err) => {
         console.log(err);

@@ -1,3 +1,4 @@
+import { IssPosition } from './../services/iss-data.service';
 import { Component, AfterViewInit, ElementRef, Input, OnInit, ViewChild, } from '@angular/core';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -17,9 +18,7 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
   //* Cube Properties
 
   rotationSpeedX: number = 0.01;
-
   rotationSpeedY: number = 0.001;
-
   size: number = 200;
 
   //* Stage Properties
@@ -70,31 +69,15 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
   issLatitude: number = 0;
   issCurrentPosition: any;
 
-
-  /**
-   *Animate the cube
-   *
-   * @private
-   * @memberof GlobeIssComponent
-   */
-
-  /**
-   * Create the scene
-   *
-   * @private
-   * @memberof GlobeIssComponent
-   */
   private createScene() {
 
     this.scene = new THREE.Scene();
-
-    this.getIssPosition()
 
     this.loader.load(
       '/assets/iss_model.glb',
       (gltf) => {
         this.geometryISS = gltf.scene.getObjectByName('iss');
-        console.log(this.geometryISS);
+
         this.geometryISS.rotateZ( Math.PI / 2 );
 
           this.Globe
@@ -134,6 +117,12 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this.camera.position.z = 12000;
+
+    let position = this.Globe.getCoords(this.issLatitude, this.issLongitude)
+    this.camera.position.x = position.x;
+    this.camera.position.y = position.y;
+
+
   }
 
   private getAspectRatio() {
@@ -170,7 +159,9 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
 
   constructor(private issDataService: IssDataService) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.getIssPosition()
+  }
 
   ngAfterViewInit(): void {
     this.createScene();
@@ -184,7 +175,7 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
         this.issLongitude = Number(resp.longitude);
         this.issCurrentPosition.setLatLng([
           this.issLatitude,
-          this.issLongitude,
+          this.issLongitude
         ]);
       },
       (err) => {
