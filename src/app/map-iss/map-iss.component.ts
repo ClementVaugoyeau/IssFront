@@ -17,6 +17,7 @@ export class MapIssComponent implements AfterViewInit {
   worldMap: any;
   issLongitude: number = 0;
   issLatitude: number = 0;
+
   markerIcon = L.icon({
     iconUrl: 'assets/iss-icon.png',
     iconSize: [35, 70],
@@ -62,6 +63,8 @@ export class MapIssComponent implements AfterViewInit {
         map(() => {
           this.getIssPosition();
           console.log(this.polylinePoints)
+          
+
           var polyline = L.polyline(this.polylinePoints, {color: 'blue'}).addTo(this.worldMap);
         })
       )
