@@ -74,7 +74,7 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
     this.scene = new THREE.Scene();
 
     this.loader.load(
-      '/assets/issModel.glb',
+      'https://clementvaugoyeau.github.io/IssFront/assets/issModel.glb',
       (gltf) => {
         this.geometryISS = gltf.scene.getObjectByName('iss');
 
