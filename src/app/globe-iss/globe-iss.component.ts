@@ -74,7 +74,7 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
     this.scene = new THREE.Scene();
 
     this.loader.load(
-      '/assets/iss_model.glb',
+      '/assets/issModel.glb',
       (gltf) => {
         this.geometryISS = gltf.scene.getObjectByName('iss');
 
@@ -118,7 +118,7 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
     this.camera.updateProjectionMatrix();
     this.camera.position.z = 12000;
 
-   
+
 
 
   }
