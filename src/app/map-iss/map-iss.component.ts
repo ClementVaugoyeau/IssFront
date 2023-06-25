@@ -62,8 +62,8 @@ export class MapIssComponent implements AfterViewInit {
       .pipe(
         map(() => {
           this.getIssPosition();
-          console.log(this.polylinePoints)
-          
+         
+
 
           var polyline = L.polyline(this.polylinePoints, {color: 'blue'}).addTo(this.worldMap);
         })
