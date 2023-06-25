@@ -118,9 +118,7 @@ export class GlobeIssComponent implements AfterViewInit, OnInit {
     this.camera.updateProjectionMatrix();
     this.camera.position.z = 12000;
 
-    let position = this.Globe.getCoords(this.issLatitude, this.issLongitude)
-    this.camera.position.x = position.x;
-    this.camera.position.y = position.y;
+   
 
 
   }
