@@ -58,7 +58,7 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
   private controls!: any;
   private loader = new GLTFLoader();
 
- 
+
   private createScene() {
     //* Scene
     this.scene = new THREE.Scene();
@@ -102,10 +102,7 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
 
   }
 
-  // private animateIss() {
-  //   this.IssScene.rotation.y += this.rotationSpeedY;
 
-  // }
 
   private getAspectRatio() {
     return this.canvas.clientWidth / this.canvas.clientHeight;
@@ -128,7 +125,7 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
     let component: ViewportIssComponent = this;
     (function render() {
       requestAnimationFrame(render);
-      // component.animateIss();
+    
       component.renderer.render(component.scene, component.camera);
     })();
   }
