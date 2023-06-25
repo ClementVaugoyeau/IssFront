@@ -5,39 +5,34 @@ import { catchError, retry } from 'rxjs/operators';
 import { AstronautsInSpace } from '../list-astronauts/astronaut-list-response';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AstronautService {
-
-  constructor(private http: HttpClient) { }
-
+  constructor(private http: HttpClient) {}
 
   API = 'http://localhost:8081';
   // API_astronautsInSpace = 'https://cors-anywhere.herokuapp.com/http://api.open-notify.org/astros.json'
-  API_astronautsInSpace = 'http://api.open-notify.org/astros.json'
+  // API_astronautsInSpace = 'http://api.open-notify.org/astros.json'
+  API_astronautsInSpace =
+    'https://corquaid.github.io/international-space-station-APIs/JSON/people-in-space.json';
 
-
-  public registerAstronaut(astronautData: any){
-    return this.http.post(this.API + '/astronauts', astronautData)
+  public registerAstronaut(astronautData: any) {
+    return this.http.post(this.API + '/astronauts', astronautData);
   }
 
-  public getAstronauts(){
-    
-    return this.http.get(this.API + '/astronauts')
+  public getAstronauts() {
+    return this.http.get(this.API + '/astronauts');
   }
 
   public getAstronautOpenNotify() {
-    return this.http.get<AstronautsInSpace>( this.API_astronautsInSpace)
-  }
-   
-  
-  public putAstronauts(astronautData: any, id: Number){
-    return this.http.put(this.API + `/astronauts/${id}`, astronautData)
+    return this.http.get<AstronautsInSpace>(this.API_astronautsInSpace);
   }
 
-  public DeleteAstronauts( id: Number){
-    return this.http.delete(this.API + `/astronauts/${id}`)
+  public putAstronauts(astronautData: any, id: Number) {
+    return this.http.put(this.API + `/astronauts/${id}`, astronautData);
   }
 
-
+  public DeleteAstronauts(id: Number) {
+    return this.http.delete(this.API + `/astronauts/${id}`);
+  }
 }

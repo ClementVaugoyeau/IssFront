@@ -8,9 +8,8 @@ describe('ViewportIssComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ViewportIssComponent ]
-    })
-    .compileComponents();
+      declarations: [ViewportIssComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ViewportIssComponent);
     component = fixture.componentInstance;

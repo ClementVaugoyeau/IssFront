@@ -1,6 +1,6 @@
 :host {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 14px;
   color: #333;
   box-sizing: border-box;
@@ -42,27 +42,16 @@ p {
   margin: 0 16px;
 }
 
-.toolbar #twitter-logo {
-  height: 40px;
-  margin: 0 8px;
-}
 
-.toolbar #youtube-logo {
-  height: 40px;
-  margin: 0 16px;
-}
-
-.toolbar #twitter-logo:hover,
-.toolbar #youtube-logo:hover {
-  opacity: 0.8;
-}
 
 .content {
   margin: 82px auto 32px;
   padding: 0 16px;
   max-width: 1920px;
-  display:  flex;
-  flex-wrap: wrap;
+  // display: flex;
+  // flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 40% 1fr;
 }
 
 a,
@@ -76,59 +65,79 @@ a:hover {
   color: #125699;
 }
 
-
-
-.list-container {
-  
-  padding-right: 20px;
+#description{
+  justify-content: center;
+  text-align: center;
+  grid-column: 1 / 3;
+  margin-bottom: 10px;
+  padding: 1em;
+  font-size: 20px;
+ 
 }
 
 #list-view {
-  
-  flex: 20%;
-  
+  margin-right: 10px;
+  flex: 25%;
 }
 
 #maps-view {
   border-radius: 5px;
   flex: 50%;
-  
 }
-
 
 .map-container {
   position: relative;
-  
-
-  width: 700px;
+  margin-top: 10px;
   height: 400px;
 }
 
-#iss-3D-view{
+#iss-3D-view {
+  width: 100%3;
   border-radius: 5px;
-  margin-left: 20px;
   margin-top: 10px;
-  flex: 1%;
+  grid-column: 1 / 3;
 }
 
-
-.view-container-iss{
+.view-container-iss {
   padding: 20px;
-  width: auto;
-  
 }
 
-.toolbar-Title {
-  margin-left: 10px;
-}
-
-#toolbar-icon {
-  margin-left: 20px;
-}
 
 /* Responsive Styles */
-// @media screen and (max-width: 767px) {
-//   .card-container > *:not(.circle-link) ,
-//   .terminal {
-//     width: 100%;
-//   }
+@media screen and (max-width: 600px) {
+  .content {
+    margin: 82px auto 32px;
+    padding: 0 16px;
+    max-width: 1920px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #list-view {
+    margin-right: 0px;
+    flex: 25%;
+  }
+
+  #maps-view {
+    margin-top: 10px;
+    border-radius: 5px;
+    flex: 50%;
+  }
+
+  .map-container {
+    position: relative;
+    margin-top: 10px;
+    flex: 50%;
+    height: 400px;
+  }
+
+  #iss-3D-view {
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+
+  .view-container-iss {
+    padding: 20px;
+  }
+
+}

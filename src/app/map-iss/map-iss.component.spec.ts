@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { MapIssComponent } from './map-iss.component';
 
 describe('MapIssComponent', () => {
@@ -8,9 +7,8 @@ describe('MapIssComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MapIssComponent ]
-    })
-    .compileComponents();
+      declarations: [MapIssComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(MapIssComponent);
     component = fixture.componentInstance;
