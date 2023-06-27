@@ -130,3 +130,11 @@ table {
   cursor: pointer;
   color: #888;
 }
+
+.tooltip {
+  
+  position: absolute;
+  border: 1px solid #000;
+  width: 400px;
+  height: 400px;
+}

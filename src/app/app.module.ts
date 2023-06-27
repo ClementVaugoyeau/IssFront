@@ -23,6 +23,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { SafePipeModule } from 'safe-pipe';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
     AddFormComponent,
     GlobeIssComponent,
     ViewportIssComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -48,6 +50,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
     MatTabsModule,
     MatExpansionModule,
     OverlayModule,
+    SafePipeModule
   ],
   providers: [],
   bootstrap: [AppComponent],
