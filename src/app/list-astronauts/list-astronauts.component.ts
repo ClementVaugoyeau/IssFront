@@ -1,4 +1,4 @@
-import { Component, OnInit, SecurityContext } from '@angular/core';
+import { Component, ElementRef, OnInit, SecurityContext, ViewChild } from '@angular/core';
 import { AstronautService } from '../services/astronaut.service';
 import { SharedService } from '../services/shared.service';
 import { Subscription,  Observable, of, pipe } from 'rxjs';
@@ -25,6 +25,10 @@ export class ListAstronautsComponent implements OnInit {
 
   safeUrl: SafeResourceUrl = ""
   safeUrls: SafeResourceUrl[] = []
+
+
+
+
 
 
 
@@ -103,14 +107,7 @@ export class ListAstronautsComponent implements OnInit {
     }
   }
 
-  safeUrlAstronautWiki(){
-
-
-
-  }
-
-
-  updateAstronaut(element: any) {
+ updateAstronaut(element: any) {
 
     let astronautsToUpdate = {
       "name": element.name,
