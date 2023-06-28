@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SecurityContext } from '@angular/core';
 import { AstronautService } from '../services/astronaut.service';
 import { SharedService } from '../services/shared.service';
 import { Subscription,  Observable, of, pipe } from 'rxjs';
@@ -23,13 +23,13 @@ export class ListAstronautsComponent implements OnInit {
   isLocalAPIOn = true;
   getAstronautEventsubcription: Subscription;
 
-  safeUrl: SafeResourceUrl;
+  safeUrl: SafeResourceUrl = ""
+  safeUrls: SafeResourceUrl[] = []
 
 
 
   constructor(private astronautService: AstronautService, private sharedService: SharedService, private sanitizer: DomSanitizer) {
 
-    this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://en.wikipedia.org/wiki/Sergey_Prokopyev_(cosmonaut)');
 
 
 
@@ -40,6 +40,7 @@ export class ListAstronautsComponent implements OnInit {
 
   ngOnInit(): void {
      this.getAstronautDetails();
+
   }
 
   onEdit(item: any) {
@@ -76,11 +77,17 @@ export class ListAstronautsComponent implements OnInit {
     for (let index = 0; index < v.people.length; index++) {
          if(v.people[index].iss == true){
 
+
           this.astronautArrayAPIRep.push(v.people[index]);
+          this.safeUrls.push(v.people[index].url)
+
          }
     }
+    this.safeUrl = this.safeUrls[0]
+
 
     this.astronautsDetails = this.astronautArrayAPIRep
+
 
     let i = 0; //index to change the role and nationality manually
 
@@ -94,6 +101,12 @@ export class ListAstronautsComponent implements OnInit {
       }
       i++;
     }
+  }
+
+  safeUrlAstronautWiki(){
+
+
+
   }
 
 

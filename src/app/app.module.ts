@@ -24,6 +24,7 @@ import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { SafePipeModule } from 'safe-pipe';
+import { SafePipe } from './safe.pipe';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { SafePipeModule } from 'safe-pipe';
     AddFormComponent,
     GlobeIssComponent,
     ViewportIssComponent,
+    SafePipe,
 
   ],
   imports: [
