@@ -121,11 +121,12 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
     this.renderer.setPixelRatio(devicePixelRatio);
     this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    
 
     let component: ViewportIssComponent = this;
     (function render() {
       requestAnimationFrame(render);
-    
+
       component.renderer.render(component.scene, component.camera);
     })();
   }

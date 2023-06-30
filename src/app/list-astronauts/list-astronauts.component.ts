@@ -26,7 +26,7 @@ export class ListAstronautsComponent implements OnInit {
   safeUrl: SafeResourceUrl = ""
   safeUrls: SafeResourceUrl[] = []
 
-
+  isPreviewVisible: boolean[] = [];
 
 
 
@@ -107,6 +107,19 @@ export class ListAstronautsComponent implements OnInit {
     }
   }
 
+  showPreview(index: number) {
+    this.isPreviewVisible[index] = true;
+    console.log("hover")
+  }
+
+  hidePreview(index: number) {
+    this.isPreviewVisible[index] = false;
+  }
+
+  
+
+
+
  updateAstronaut(element: any) {
 
     let astronautsToUpdate = {
@@ -124,6 +137,8 @@ export class ListAstronautsComponent implements OnInit {
       }
     )
   }
+
+
 
   deleteAstronaut(element: any) {
 

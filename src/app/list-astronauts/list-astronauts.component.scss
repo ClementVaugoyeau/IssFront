@@ -131,10 +131,25 @@ table {
   color: #888;
 }
 
-.tooltip {
-  display: show;
+.preview-container {
+  display: none;
   position: absolute;
-  border: 1px solid #000;
-  width: 500px;
-  height: 400px;
+  left: 150px;
+  top: 200px;
+  width: 600px;
+  height: 600px;
+  border: none;
+
+
+  z-index: 1000;
+}
+
+.visible{
+  display: block;
+}
+
+.name-astronaut{
+  cursor: pointer;
+  color: rgb(16, 16, 169);
+
 }
