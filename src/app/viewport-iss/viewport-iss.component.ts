@@ -5,10 +5,12 @@ import {
   Input,
   OnInit,
   ViewChild,
+
 } from '@angular/core';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+
 
 @Component({
   selector: 'app-viewport-iss',
@@ -57,6 +59,14 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
   private IssScene!: THREE.Group;
   private controls!: any;
   private loader = new GLTFLoader();
+  private raycaster = new THREE.Raycaster();
+  private mouse = new THREE.Vector2();
+
+
+ hello(){
+  console.log("hello")
+ }
+
 
 
   private createScene() {
@@ -68,8 +78,11 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
     this.DirectionaLight.position.y = 20;
     this.scene.add(this.DirectionaLight, this.AmbiantLight);
 
+
+    // 'https://clementvaugoyeau.github.io/IssFront/assets/iss-_international_space_station.glb'
+
     this.loader.load(
-      'https://clementvaugoyeau.github.io/IssFront/assets/iss-_international_space_station.glb',
+      'assets/cube.glb',
       (gltf) => {
         this.scene.add(gltf.scene);
 
@@ -100,6 +113,8 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
     this.camera.position.x = this.cameraX;
 
 
+
+
   }
 
 
@@ -108,12 +123,7 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
     return this.canvas.clientWidth / this.canvas.clientHeight;
   }
 
-  /**
-   * Start the rendering loop
-   *
-   * @private
-   * @memberof ViewportIssComponent
-   */
+
   private startRenderingLoop() {
     //* Renderer
     // Use canvas element in template
@@ -121,7 +131,7 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
     this.renderer.setPixelRatio(devicePixelRatio);
     this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-    
+
 
     let component: ViewportIssComponent = this;
     (function render() {
@@ -131,6 +141,43 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
     })();
   }
 
+   onDocumentMouseDown( event:any ) {
+
+    event.preventDefault();
+
+
+    this.mouse.x = ( event.clientX / this.renderer.domElement.clientWidth ) * 2 - 1;
+    this.mouse.y = - ( event.clientY / this.renderer.domElement.clientHeight ) * 2 + 1;
+
+    var objects:any;
+
+    objects  = this.scene.getObjectByName("Cube");
+
+    this.raycaster.setFromCamera( this.mouse, this.camera );
+
+    var intersects = this.raycaster.intersectObjects(this.scene.children, true);
+
+    // console.log(this.scene.children)
+    // console.log(this.scene.children[2].children)
+
+    console.log(intersects)
+    this.scene.add(new THREE.ArrowHelper(this.raycaster.ray.direction, this.raycaster.ray.origin, 30, 0xff0000) );
+
+    console.log(this.scene.children)
+    if ( intersects.length > 0 ) {
+
+
+      intersects[0].object.position.x = 1000000;
+
+
+    }
+
+
+
+}
+
+
+
   constructor() {}
 
   ngOnInit(): void {}
@@ -138,5 +185,8 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.createScene();
     this.startRenderingLoop();
+
+
+
   }
 }

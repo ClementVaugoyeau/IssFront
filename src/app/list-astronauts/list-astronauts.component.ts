@@ -91,6 +91,7 @@ export class ListAstronautsComponent implements OnInit {
 
 
     this.astronautsDetails = this.astronautArrayAPIRep
+    console.log(this.astronautsDetails)
 
 
     let i = 0; //index to change the role and nationality manually
@@ -109,14 +110,14 @@ export class ListAstronautsComponent implements OnInit {
 
   showPreview(index: number) {
     this.isPreviewVisible[index] = true;
-    console.log("hover")
+
   }
 
   hidePreview(index: number) {
     this.isPreviewVisible[index] = false;
   }
 
-  
+
 
 
 
