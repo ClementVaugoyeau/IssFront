@@ -1,3 +1,4 @@
+import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass';
 import {
   Component,
   AfterViewInit,
@@ -10,6 +11,12 @@ import {
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
+
+import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader'
+
 
 
 @Component({
@@ -61,11 +68,11 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
   private loader = new GLTFLoader();
   private raycaster = new THREE.Raycaster();
   private mouse = new THREE.Vector2();
+  private selectedObjects: any = [];
+  private outlinePass: any;
+  private composer: any;
+  private effectFXAA: any;
 
-
- hello(){
-  console.log("hello")
- }
 
 
 
@@ -77,6 +84,8 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
     this.DirectionaLight.position.x = 10;
     this.DirectionaLight.position.y = 20;
     this.scene.add(this.DirectionaLight, this.AmbiantLight);
+
+
 
 
     // 'https://clementvaugoyeau.github.io/IssFront/assets/iss-_international_space_station.glb'
@@ -123,6 +132,10 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
     return this.canvas.clientWidth / this.canvas.clientHeight;
   }
 
+  private renderComposer() {
+    this.composer.render()
+  }
+
 
   private startRenderingLoop() {
     //* Renderer
@@ -132,49 +145,89 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
     this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
+    this.composer = new EffectComposer(this.renderer);
+
+    this.composer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const renderPass = new RenderPass(this.scene, this.camera);
+    this.composer.addPass(renderPass);
+
+
+
+
+    this.outlinePass = new OutlinePass(new THREE.Vector2(window.innerWidth, window.innerHeight), this.scene, this.camera);
+    this.outlinePass.edgeStrength = 10.0;
+
+    this.outlinePass.edgeGlow = 0;
+    this.outlinePass.edgeThickness = 4.0;
+    this.outlinePass.pulsePeriod = 0;
+    this.outlinePass.usePatternTexture = false; // patter texture for an object mesh
+    this.outlinePass.visibleEdgeColornew = new THREE.Color( 1, 1, 1 );
+    this.outlinePass.hiddenEdgeColor.set("#1abaff"); // set edge color when it hidden by other objects
+    this.composer.addPass(this.outlinePass);
+
+
+
+    this.effectFXAA = new ShaderPass(FXAAShader);
+    this.effectFXAA.uniforms["resolution"].value.set(
+      1 / window.innerWidth,
+      1 / window.innerHeight
+    );
+    this.effectFXAA.renderToScreen = true;
+    this.composer.addPass(this.effectFXAA);
+
+
+
+
 
     let component: ViewportIssComponent = this;
     (function render() {
       requestAnimationFrame(render);
 
       component.renderer.render(component.scene, component.camera);
+      component.renderComposer()
     })();
+
   }
 
-   onDocumentMouseDown( event:any ) {
+  onDocumentMouseDown(event: any) {
 
     event.preventDefault();
 
 
-    this.mouse.x = ( event.clientX / this.renderer.domElement.clientWidth ) * 2 - 1;
-    this.mouse.y = - ( event.clientY / this.renderer.domElement.clientHeight ) * 2 + 1;
+    this.mouse.x = (event.clientX / this.renderer.domElement.clientWidth) * 2 - 1;
+    this.mouse.y = - (event.clientY / this.renderer.domElement.clientHeight) * 2 + 1;
 
-    var objects:any;
 
-    objects  = this.scene.getObjectByName("Cube");
+    this.raycaster.setFromCamera(this.mouse, this.camera);
 
-    this.raycaster.setFromCamera( this.mouse, this.camera );
 
-    var intersects = this.raycaster.intersectObjects(this.scene.children, true);
-
-    // console.log(this.scene.children)
-    // console.log(this.scene.children[2].children)
+    const intersects = this.raycaster.intersectObject(this.scene, true);
 
     console.log(intersects)
-    this.scene.add(new THREE.ArrowHelper(this.raycaster.ray.direction, this.raycaster.ray.origin, 30, 0xff0000) );
-
-    console.log(this.scene.children)
-    if ( intersects.length > 0 ) {
 
 
-      intersects[0].object.position.x = 1000000;
+
+    if (intersects.length > 0) {
+
+      const selectedObject = intersects[0].object;
+      console.log(selectedObject)
+      this.selectedObjects = [];
+      this.selectedObjects.push(selectedObject)
+      console.log(this.selectedObjects)
+
+      this.outlinePass.selectedObjects = this.selectedObjects
+
+
 
 
     }
 
 
 
-}
+  }
+
+
 
 
 
