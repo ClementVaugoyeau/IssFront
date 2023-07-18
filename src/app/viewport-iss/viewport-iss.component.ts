@@ -91,7 +91,7 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
     // 'https://clementvaugoyeau.github.io/IssFront/assets/iss-_international_space_station.glb'
 
     this.loader.load(
-      'assets/cube.glb',
+      'assets/issModelPerso.glb',
       (gltf) => {
         this.scene.add(gltf.scene);
 
@@ -126,6 +126,19 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
 
   }
 
+   onWindowResize() {
+
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+      this.camera.aspect = width / height;
+    this.camera.updateProjectionMatrix();
+
+    this.renderer.setSize( width, height );
+    this.composer.setSize( width, height );
+
+    this.effectFXAA.uniforms[ 'resolution' ].value.set( 1 / window.innerWidth, 1 / window.innerHeight );
+   }
 
 
   private getAspectRatio() {
@@ -162,8 +175,9 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
     this.outlinePass.edgeThickness = 4.0;
     this.outlinePass.pulsePeriod = 0;
     this.outlinePass.usePatternTexture = false; // patter texture for an object mesh
-    this.outlinePass.visibleEdgeColornew = new THREE.Color( 1, 1, 1 );
+    this.outlinePass.visibleEdgeColornew = new THREE.Color( 0, 0, 0 );
     this.outlinePass.hiddenEdgeColor.set("#1abaff"); // set edge color when it hidden by other objects
+    this.outlinePass.overlayMaterial.blending = THREE.SubtractiveBlending
     this.composer.addPass(this.outlinePass);
 
 
@@ -195,6 +209,7 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
     event.preventDefault();
 
 
+
     this.mouse.x = (event.clientX / this.renderer.domElement.clientWidth) * 2 - 1;
     this.mouse.y = - (event.clientY / this.renderer.domElement.clientHeight) * 2 + 1;
 
@@ -221,6 +236,8 @@ export class ViewportIssComponent implements OnInit, AfterViewInit {
 
 
 
+    }else{
+      this.outlinePass.selectedObjects = []
     }
 
 
